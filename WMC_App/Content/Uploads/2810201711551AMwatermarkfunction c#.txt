@@ -1,0 +1,23 @@
+   private static System.Drawing.Image DrawText(String text, System.Drawing.Font font, Color textColor, Color backColor, double height, double width)
+        {
+            //create a bitmap image with specified width and height
+            System.Drawing.Image img = new Bitmap((int)width, (int)height);
+            Graphics drawing = Graphics.FromImage(img);
+            //get the size of text
+            SizeF textSize = drawing.MeasureString(text, font);
+            //set rotation point
+            drawing.TranslateTransform(((int)width - textSize.Width) / 2, ((int)height - textSize.Height) / 2);
+            //rotate text
+            drawing.RotateTransform(-45);
+            //reset translate transform    
+            drawing.TranslateTransform(-((int)width - textSize.Width) / 2, -((int)height - textSize.Height) / 2);
+            //paint the background
+            drawing.Clear(backColor);
+            //create a brush for the text
+            Brush textBrush = new SolidBrush(textColor);
+            //draw text on the image at center position
+            drawing.DrawString(text, font, textBrush, ((int)width - textSize.Width) / 2, ((int)height - textSize.Height) / 2);
+            drawing.Save();
+            return img;
+        }
+       

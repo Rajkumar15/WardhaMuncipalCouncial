@@ -1,0 +1,140 @@
+﻿@model WMC_App.Models.DAL.tbl_UserDetailsss
+@{
+    ViewBag.Title = "UserProfile";
+}
+<style type="text/css">
+    .col-form-label {
+        font-weight:bold;
+    }
+</style>
+<div id="content-wrapper">
+    <div class="row" style="opacity: 1;">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ol class="breadcrumb">
+                        <li><a href="/Home/Index">Home</a></li>
+                        <li><a href="#">Users</a></li>
+                        <li class="active"><span>User Profile</span></li>
+                    </ol>
+                    <h1>User Profile</h1>
+                </div>
+            </div>
+            <div class="row" id="user-profile">
+                <div class="col-lg-3 col-md-4 col-sm-4">
+                    <div class="main-box clearfix">
+                        <header class="main-box-header clearfix">
+                            <h2>Scarlett Johansson</h2>
+                        </header>
+                        <div class="main-box-body clearfix">
+                            <div class="profile-status">
+                                <i class="fa fa-circle"></i> Online
+                            </div>
+                            <img src="~/Content/images/scarlet-159.png" alt="" class="profile-img img-responsive center-block">
+                            <div class="profile-label">
+                                <span class="label label-danger">
+                                    @try
+                                    {
+                                        @User.Identity.Name
+                                    }
+                                    catch
+                                    {
+                                        @Html.Display("Unknown User")
+                                    }
+                            </span>
+                        </div>
+                        <div class="profile-stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <span>Admin</span>
+                        </div>
+                        <div class="profile-since">
+                            Member since: Jan 2017
+                        </div>
+                        <div class="profile-details">
+                            <ul class="fa-ul">
+                                <li><i class="fa-li fa fa-truck"></i>Orders: <span>456</span></li>
+                                <li><i class="fa-li fa fa-comment"></i>Posts: <span>828</span></li>
+                                <li><i class="fa-li fa fa-tasks"></i>Tasks done: <span>1024</span></li>
+                            </ul>
+                        </div>
+                        <div class="profile-message-btn center-block text-center">
+                            <a href="#" class="btn btn-success">
+                                <i class="fa fa-envelope"></i>
+                                Send message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-sm-8">
+                <div class="main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#" data-toggle="tab" aria-expanded="true">Information</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="tab-newsfeed">
+                                <div id="newsfeed">
+                                    <div class="story">
+                                        <div class="col-sm-12" style="padding-bottom:33%;">
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Full Name :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.FullName)
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">User Name :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.UserName)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">User Type :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.RoleName)
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Contact Number :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.ContactNumber)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Address 1 :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.AddressLine1)
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Address 2 :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.AddressLine2)
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Email Id :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.EmailId)
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Registered Date :</label>
+                                                <div class="col-lg-4">
+                                                    @Html.DisplayFor(x => x.RegisteredDate)
+                                                </div>                                               
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

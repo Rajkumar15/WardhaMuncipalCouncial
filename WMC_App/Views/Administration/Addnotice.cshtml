@@ -1,0 +1,332 @@
+﻿@model WMC_App.Models.DAL.tbl_NoticeBoardMasterss
+@{
+    ViewBag.Title = "EditUserDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/assets/css/Notification/font-awesome.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/theme_styles.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/nanoscroller.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/ns-default.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/ns-style-growl.css" rel="stylesheet" />
+
+<link href="~/assets/css/Notification/ns-style-bar.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/ns-style-attached.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/ns-style-other.css" rel="stylesheet" />
+<link href="~/assets/css/Notification/ns-style-theme.css" rel="stylesheet" />
+<style type="text/css">
+    .wp {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    .ns-close {
+        cursor:pointer;
+    }
+</style>
+
+    <div id="content-wrapper">
+        <div class="row" style="opacity: 1;">
+            <div class="col-lg-12">
+                <div class="slide-main-container">
+                    <!-- ngView:  --><div ng-view="" autoscroll="true" class="slide-main-animation ng-scope">
+                        <div class="row ng-scope">
+                            <div class="col-lg-12">
+                                <ol class="breadcrumb">
+                                    <li><a href="/Home/Index">Home</a></li>
+                                    <li><span>New Notice</span></li>
+                                </ol>
+                                <h1>Notice Registration</h1>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm("Addnotice", "Administration", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                        {
+                            <div class="row ng-scope">
+                                <div class="col-lg-12">
+                                    <div class="main-box">
+                                        <header class="main-box-header clearfix" style="border-bottom: 1px solid #E7EBEE;">
+                                            <h2 class="wp">Notice Registeration</h2>
+                                        </header>
+                                        <div class="main-box-body clearfix">
+                                            @Html.ValidationSummary()
+                                            @Html.HiddenFor(x => x.pkid)
+                                            @Html.HiddenFor(x => x.Active)
+                                            @Html.HiddenFor(x => x.Image_Path)
+                                            @Html.HiddenFor(x => x.RequiredDays)
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Notice Name</label>
+                                                <div class="col-lg-4">
+                                                    @Html.TextBoxFor(x => x.NoticeName, new { @class = "form-control Rajstring", @placeholder = "Enter Notice Name", @required = "required" })
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Notice Description</label>
+                                                <div class="col-lg-4">
+                                                    @Html.TextAreaFor(x => x.NoticeDescription, new { @class = "form-control", @placeholder = "Enter Notice Description" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Added Date</label>
+                                                <div class="col-lg-4">
+                                                    @Html.TextBoxFor(x => x.AddedDate, new { @class = "form-control", @required = "required" })
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Required Days</label>
+                                                <div class="col-lg-4">
+                                                    <select id="rd" class="form-control" required="required">
+                                                        <option value="">Select</option>
+                                                        <option value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                        <option value="6">6</option>
+                                                        <option value="7">7</option>
+                                                        <option value="8">8</option>
+                                                        <option value="9">9</option>
+                                                        <option value="10">10</option>
+                                                        <option value="11">11</option>
+                                                        <option value="12">12</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-2 col-form-label text-right">Active</label>
+                                                <div class="col-lg-4">
+                                                    <select id="ac" class="form-control" required="required">
+                                                        <option value="">Select</option>
+                                                        <option value="1">Yes</option>
+                                                        <option value="0">No</option>
+                                                    </select>
+                                                </div>
+                                                <label class="col-lg-2 col-form-label text-right">Select Image</label>
+                                                <div class="col-lg-4">
+                                                    <input type="file" name="image" multiple="multiple" id="image" />
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <div class="col-lg-offset-2 col-lg-10">
+                                                    <button type="submit" class="btn btn-success">Save</button>
+                                                    <button type="button" class="btn btn-danger">Cancel</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="main-box-body clearfix">
+                                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable " style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            #
+                                                        </th>
+                                                        <th>Notice Name</th>
+                                                        <th>Notice Description</th>
+                                                        @*<th>Image</th>*@
+                                                        <th>Add Date</th>
+                                                        <th>Active</th>
+                                                        <th style="width:10% !important;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Content/js/jquery-1.12.4.js"></script>
+    <link href="~/Content/css/sweetalert2.css" rel="stylesheet" />
+    <script src="~/Content/js/sweetalert2.js"></script>
+    <link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery.dataTables.js"></script>
+    <script src="~/Content/js/common.js"></script>
+    <script src="~/assets/js/modernizr.custom.js"></script>
+    <script src="~/assets/js/classie.js"></script>
+    <script src="~/assets/js/notificationFx.js"></script>
+
+    <script type="text/javascript">
+      
+        $('.js-basic-example').DataTable({
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": true, // this is for disable filter (search box)
+            "orderMulti": true, // for disable multiple column at once
+
+            "ajax": {
+                "url": "/Administration/GetNoticeList",
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                    { "data": "pkid", "name": "pkid", "orderable": false, "autoWidth": true },
+                    { "data": "noticename", "Name": "noticename", "autoWidth": true },
+                    { "data": "Noticedes", "Name": "Noticedes", "autoWidth": true },
+                    //{
+                    //    "data": "image", "Name": "image", "render": function (data, type, full, meta) {
+                    //        return '' + DisplayImageaUsingPath(data) + ''
+                    //    }
+                    //},
+                    {
+                        "data": "adddate", "Name": "adddate", "render": function (data, type, full, meta) {
+                            return '' + formatJsonDate(data) + ''
+                        }
+                    },
+                    {
+                        "data": "active", "Name": "active", "render": function (data, type, full, meta) {
+                            return '' + JsonActiveString(data) + ''
+                        }
+                    },
+                    {
+                        "data": "pkid", "orderable": false, "render": function (data, type, full, meta) {
+                            return '<a href=/Administration/Addnotice?id=' + data + '>Edit</a> | <a href="#" id=' + data + ' onclick="DeleteRequest(this)">Delete</a>' +
+                                '| <input type="checkbox" title="Active/Deactive" name="' + data + '" ' + Checktrue(full.active) + ' class="checkbox" onclick="Getchag(this)">';
+                        }
+                    }
+            ],
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                $("td:first", nRow).html(iDisplayIndex + 1);
+                return nRow;
+            }
+        })
+        function Getchag(cname) {
+            var id = cname.name;
+            var bttnGenie = document.getElementsByClassName('checkbox');
+            $.getJSON("/Administration/ChangeStateNotice?id=" + id, function (data) {
+                
+                if (data != "failed")
+                    var notification = new NotificationFx({
+                        message: '<p>State Change Successfully. Now Notice Is ' + data + '</p>',
+                        layout: 'growl',
+                        effect: 'genie',
+                        type: 'notice', // notice, warning or error
+                        onClose: function () {
+                            bttnGenie.disabled = false;
+                        }
+                    });
+            })
+            setTimeout(function () {
+                $(".ns-effect-genie").hide();
+            }, 2000);
+        }
+        function Checktrue(cname) {
+            debugger;
+            if (cname == null || cname == "") {
+                return "";
+            }
+            else {
+                if (cname == "1") {
+                    return "checked='1'";
+                }
+                else {
+                    return "";
+                }
+            }
+        }
+        function Notification() {
+            //Genie effect
+            var bttnGenie = document.getElementById('notification-trigger-genie');
+
+            // make sure..
+            bttnGenie.disabled = false;
+
+            bttnGenie.addEventListener('click', function () {
+                // simulate loading (for demo purposes only)
+                classie.add(bttnGenie, 'active');
+                classie.remove(bttnGenie, 'active');
+
+                // create the notification
+                var notification = new NotificationFx({
+                    message: '<p>Your preferences have been saved successfully. See all your settings in your <a href="#">profile overview</a>.</p>',
+                    layout: 'growl',
+                    effect: 'genie',
+                    type: 'notice', // notice, warning or error
+                    onClose: function () {
+                        bttnGenie.disabled = false;                      
+                    }
+                });
+
+                // show the notification
+                notification.show();
+
+                // disable the button (for demo purposes only)
+                this.disabled = true;
+            });         
+
+        }
+        function DeleteRequest(cname) {
+            
+            swal({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: true
+            }).then(function () {
+                var id = cname.id;
+                $.get("/Administration/DeleteNotice?id=" + id + "", function (data) {
+                    
+                    if (data == "success") {
+                        swal(
+                      'Deleted!',
+                      'Your User has been deleted.',
+                      'success'
+                    )
+                    }
+                    else {
+                        swal(
+                      'Oopss...',
+                      'Something Went wrong...!',
+                      'error'
+                    )
+                    }
+                }).done(function () {
+                    window.location.reload(1);
+                })
+            },
+        function (dismiss) {
+            // dismiss can be 'cancel', 'overlay',
+            // 'close', and 'timer'
+            if (dismiss === 'cancel') {
+                swal(
+                  'Cancelled',
+                  'Your imaginary file is safe :)',
+                  'error'
+                )
+            }
+        })
+        }
+        $(document).ready(function () {
+            $('#AddedDate').datepicker({
+                format: 'dd-mm-yyyy',
+                autoclose: true
+            });
+            $('#AddedDate').val('@DateTime.Now.ToShortDateString()')
+            if ('@ViewBag.Exception' != "") {
+                sweetAlert('Oops...',
+                     'Something went wrong due to @ViewBag.Exception!',
+                     'error'
+                    )
+            }
+            $("#rd").val($("#RequiredDays").val())
+            $("#ac").val($("#Active").val())
+            $("#rd").change(function () {
+                $("#RequiredDays").val($("#rd").val());
+            })
+            $("#ac").change(function () {
+                $("#Active").val($("#ac").val());
+            })
+        })
+    </script>
+

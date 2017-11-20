@@ -1,0 +1,82 @@
+Time: 07/11/2017 11:08:48 AM
+
+-----------------------------------------------------------
+Message: Object reference not set to an instance of an object.
+StackTrace:    at WMC_App.Controllers.SuperAdminController.SaveCustomer() in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\SuperAdminController.cs:line 35
+Source: WMC_App
+TargetSite: System.Web.Mvc.ActionResult SaveCustomer()
+-----------------------------------------------------------
+
+Time: 07/11/2017 11:08:49 AM
+
+-----------------------------------------------------------
+Message: UserId not found.
+StackTrace:    at Microsoft.AspNet.Identity.UserManager`2.<GetRolesAsync>d__ac.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at WMC_App.Controllers.AccountController.<Register>d__17.MoveNext() in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\AccountController.cs:line 191
+Source: Microsoft.AspNet.Identity.Core
+TargetSite: Void MoveNext()
+-----------------------------------------------------------
+
+Time: 07/11/2017 11:21:35 AM
+
+-----------------------------------------------------------
+Message: Object reference not set to an instance of an object.
+StackTrace:    at WMC_App.Controllers.SuperAdminController.SaveCustomer() in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\SuperAdminController.cs:line 35
+Source: WMC_App
+TargetSite: System.Web.Mvc.ActionResult SaveCustomer()
+-----------------------------------------------------------
+
+Time: 07/11/2017 11:22:01 AM
+
+-----------------------------------------------------------
+Message: UserId not found.
+StackTrace:    at Microsoft.AspNet.Identity.UserManager`2.<GetRolesAsync>d__ac.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at WMC_App.Controllers.AccountController.<Register>d__17.MoveNext() in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\AccountController.cs:line 191
+Source: Microsoft.AspNet.Identity.Core
+TargetSite: Void MoveNext()
+-----------------------------------------------------------
+
+Time: 08/11/2017 10:31:30 AM
+
+-----------------------------------------------------------
+Message: Object reference not set to an instance of an object.
+StackTrace:    at WMC_App.Controllers.AdministrationController.AddTourism(tbl_TourismMasterss model, HttpPostedFileBase[] files) in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\AdministrationController.cs:line 404
+Source: WMC_App
+TargetSite: System.Web.Mvc.ActionResult AddTourism(WMC_App.Models.DAL.tbl_TourismMasterss, System.Web.HttpPostedFileBase[])
+-----------------------------------------------------------
+
+Time: 08/11/2017 10:33:28 AM
+
+-----------------------------------------------------------
+Message: Object reference not set to an instance of an object.
+StackTrace:    at WMC_App.Controllers.AdministrationController.AddTourism(tbl_TourismMasterss model, HttpPostedFileBase[] files) in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\AdministrationController.cs:line 404
+Source: WMC_App
+TargetSite: System.Web.Mvc.ActionResult AddTourism(WMC_App.Models.DAL.tbl_TourismMasterss, System.Web.HttpPostedFileBase[])
+-----------------------------------------------------------
+
+Time: 10/11/2017 11:36:19 AM
+
+-----------------------------------------------------------
+Message: The asynchronous action method 'Register' returns a Task, which cannot be executed synchronously.
+StackTrace:    at System.Web.Mvc.Async.TaskAsyncActionDescriptor.Execute(ControllerContext controllerContext, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethod(ControllerContext controllerContext, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<InvokeActionMethodWithFilters>b__12()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodFilter(IActionFilter filter, ActionExecutingContext preContext, Func`1 continuation)
+   at System.Web.Mvc.ControllerActionInvoker.<>c__DisplayClass15.<>c__DisplayClass17.<InvokeActionMethodWithFilters>b__14()
+   at System.Web.Mvc.ControllerActionInvoker.InvokeActionMethodWithFilters(ControllerContext controllerContext, IList`1 filters, ActionDescriptor actionDescriptor, IDictionary`2 parameters)
+   at System.Web.Mvc.ControllerActionInvoker.InvokeAction(ControllerContext controllerContext, String actionName)
+   at System.Web.Mvc.Controller.ExecuteCore()
+   at WMC_App.Controllers.AccountController.<>n__FabricatedMethod25()
+   at WMC_App.Controllers.AccountController.<Register>d__1a.MoveNext() in d:\raj\WardhaNMCApplication\WMC Project Code\WMC_App\WMC_App\Controllers\AccountController.cs:line 207
+Source: System.Web.Mvc
+TargetSite: System.Object Execute(System.Web.Mvc.ControllerContext, System.Collections.Generic.IDictionary`2[System.String,System.Object])
+-----------------------------------------------------------
+

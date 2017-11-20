@@ -1,0 +1,819 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WMC_WebApplicationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Category_Complaint">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar(max)" />
+          <Property Name="LastModifedDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_CityMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="StateID" Type="int" />
+          <Property Name="Lid" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_ComplaintMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_fkid" Type="nvarchar(max)" />
+          <Property Name="Category_fkid" Type="int" />
+          <Property Name="ComplaintName" Type="nvarchar(max)" />
+          <Property Name="ComplaintDescription" Type="nvarchar(max)" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="Active" Type="int" />
+          <Property Name="Longitutde" Type="nvarchar(max)" />
+          <Property Name="Latitude" Type="nvarchar(max)" />
+          <Property Name="City_fkid" Type="int" />
+          <Property Name="ShowIdentity" Type="nvarchar" MaxLength="50" />
+          <Property Name="ImagePath" Type="nvarchar(max)" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_CountryMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryCode" Type="varchar" MaxLength="5" />
+          <Property Name="Lid" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Emergency_ContactUs">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeptName" Type="nvarchar(max)" />
+          <Property Name="MobileNo" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_feedback_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rateAmt" Type="int" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="user_fkid" Type="nvarchar(max)" />
+          <Property Name="adddate" Type="datetime" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_LikesMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Master_fkid" Type="int" />
+          <Property Name="SubMaster_fkid" Type="int" />
+          <Property Name="User_fkid" Type="nvarchar(max)" />
+          <Property Name="Likes" Type="int" />
+          <Property Name="LastModifieddatetime" Type="datetime" />
+          <Property Name="customername" Type="nvarchar(max)" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_MultipleFileUpload">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Master_fkid" Type="int" />
+          <Property Name="SubMaster_fkid" Type="int" />
+          <Property Name="filepath" Type="nvarchar(max)" />
+          <Property Name="Lastmodifieddatetime" Type="datetime" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_NoticeBoardMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NoticeName" Type="nvarchar(max)" />
+          <Property Name="NoticeDescription" Type="nvarchar(max)" />
+          <Property Name="Image_Path" Type="nvarchar(max)" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="RequiredDays" Type="int" />
+          <Property Name="Active" Type="int" />
+          <Property Name="City_fkid" Type="int" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Prabhag_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prabhag_Name" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="adddate" Type="datetime" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_StateMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="CountryID" Type="int" />
+          <Property Name="Lid" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_suggestionMaster">
+          <Key>
+            <PropertyRef Name="pkd" />
+          </Key>
+          <Property Name="pkd" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_fkid" Type="nvarchar(max)" />
+          <Property Name="title" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="imagepath" Type="varchar(max)" />
+          <Property Name="adddate" Type="datetime" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_Tourism_Category">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_Name" Type="nvarchar(max)" />
+          <Property Name="Category_Description" Type="nvarchar(max)" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Tourism_SubCategory">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_fkid" Type="int" />
+          <Property Name="SubCategory_Name" Type="nvarchar(max)" />
+          <Property Name="SubCategory_Description" Type="nvarchar(max)" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_TourismMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sub_fkid" Type="int" />
+          <Property Name="city_fkid" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="ContactNumber" Type="nvarchar(max)" />
+          <Property Name="InchargeName" Type="nvarchar(max)" />
+          <Property Name="Longitude" Type="nvarchar(max)" />
+          <Property Name="Lotitude" Type="nvarchar(max)" />
+          <Property Name="AddedDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="openingTime" Type="time" Precision="7" />
+          <Property Name="ClosingTime" Type="time" Precision="7" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_UserDetails">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_fkid" Type="nvarchar(max)" />
+          <Property Name="FullName" Type="nvarchar(max)" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="RoleName" Type="nvarchar(max)" />
+          <Property Name="AddressLine1" Type="nvarchar(max)" />
+          <Property Name="AddressLine2" Type="nvarchar(max)" />
+          <Property Name="ContactNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="50" />
+          <Property Name="RegisteredDate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
+          <Property Name="cid" Type="int" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="mid" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_Ward_master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prabhag_fkid" Type="int" />
+          <Property Name="ward_Name" Type="nvarchar(max)" />
+          <Property Name="description" Type="nvarchar(max)" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="adddate" Type="datetime" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_wardMember_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ward_fkid" Type="int" />
+          <Property Name="Member_Name" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="adddate" Type="datetime" />
+          <Property Name="status" Type="int" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="WMC_WebApplicationModelStoreContainer">
+          <EntitySet Name="tbl_Category_Complaint" EntityType="Self.tbl_Category_Complaint" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CityMaster" EntityType="Self.tbl_CityMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ComplaintMaster" EntityType="Self.tbl_ComplaintMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_CountryMaster" EntityType="Self.tbl_CountryMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Emergency_ContactUs" EntityType="Self.tbl_Emergency_ContactUs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_feedback_Master" EntityType="Self.tbl_feedback_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_LikesMaster" EntityType="Self.tbl_LikesMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_MultipleFileUpload" EntityType="Self.tbl_MultipleFileUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NoticeBoardMaster" EntityType="Self.tbl_NoticeBoardMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Prabhag_Master" EntityType="Self.tbl_Prabhag_Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_StateMaster" EntityType="Self.tbl_StateMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_suggestionMaster" EntityType="Self.tbl_suggestionMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Tourism_Category" EntityType="Self.tbl_Tourism_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Tourism_SubCategory" EntityType="Self.tbl_Tourism_SubCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TourismMaster" EntityType="Self.tbl_TourismMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserDetails" EntityType="Self.tbl_UserDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Ward_master" EntityType="Self.tbl_Ward_master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_wardMember_Master" EntityType="Self.tbl_wardMember_Master" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WMC_WebApplicationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_Category_Complaint">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastModifedDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_CityMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StateID" Type="Int32" />
+          <Property Name="Lid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_ComplaintMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_fkid" Type="Int32" />
+          <Property Name="ComplaintName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ComplaintDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="Longitutde" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City_fkid" Type="Int32" />
+          <Property Name="ShowIdentity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_CountryMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Lid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Emergency_ContactUs">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeptName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_feedback_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="rateAmt" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="user_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adddate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_LikesMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Master_fkid" Type="Int32" />
+          <Property Name="SubMaster_fkid" Type="Int32" />
+          <Property Name="User_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Likes" Type="Int32" />
+          <Property Name="LastModifieddatetime" Type="DateTime" Precision="3" />
+          <Property Name="customername" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_MultipleFileUpload">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Master_fkid" Type="Int32" />
+          <Property Name="SubMaster_fkid" Type="Int32" />
+          <Property Name="filepath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lastmodifieddatetime" Type="DateTime" Precision="3" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_NoticeBoardMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NoticeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NoticeDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Image_Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="RequiredDays" Type="Int32" />
+          <Property Name="Active" Type="Int32" />
+          <Property Name="City_fkid" Type="Int32" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Prabhag_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prabhag_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_StateMaster">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CountryID" Type="Int32" />
+          <Property Name="Lid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_suggestionMaster">
+          <Key>
+            <PropertyRef Name="pkd" />
+          </Key>
+          <Property Name="pkd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imagepath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="adddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_Tourism_Category">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Category_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Tourism_SubCategory">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_fkid" Type="Int32" />
+          <Property Name="SubCategory_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubCategory_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_TourismMaster">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sub_fkid" Type="Int32" />
+          <Property Name="city_fkid" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="InchargeName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Longitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lotitude" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="openingTime" Type="Time" Precision="7" />
+          <Property Name="ClosingTime" Type="Time" Precision="7" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_UserDetails">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RoleName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RegisteredDate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="cid" Type="Int32" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="mid" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_Ward_master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prabhag_fkid" Type="Int32" />
+          <Property Name="ward_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_wardMember_Master">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Member_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="adddate" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Ward_fkid" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="WMC_WebApplicationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Category_Complaint" EntityType="Self.tbl_Category_Complaint" />
+          <EntitySet Name="tbl_CityMaster" EntityType="Self.tbl_CityMaster" />
+          <EntitySet Name="tbl_ComplaintMaster" EntityType="Self.tbl_ComplaintMaster" />
+          <EntitySet Name="tbl_CountryMaster" EntityType="Self.tbl_CountryMaster" />
+          <EntitySet Name="tbl_Emergency_ContactUs" EntityType="Self.tbl_Emergency_ContactUs" />
+          <EntitySet Name="tbl_feedback_Master" EntityType="Self.tbl_feedback_Master" />
+          <EntitySet Name="tbl_LikesMaster" EntityType="Self.tbl_LikesMaster" />
+          <EntitySet Name="tbl_MultipleFileUpload" EntityType="Self.tbl_MultipleFileUpload" />
+          <EntitySet Name="tbl_NoticeBoardMaster" EntityType="Self.tbl_NoticeBoardMaster" />
+          <EntitySet Name="tbl_Prabhag_Master" EntityType="Self.tbl_Prabhag_Master" />
+          <EntitySet Name="tbl_StateMaster" EntityType="Self.tbl_StateMaster" />
+          <EntitySet Name="tbl_suggestionMaster" EntityType="Self.tbl_suggestionMaster" />
+          <EntitySet Name="tbl_Tourism_Category" EntityType="Self.tbl_Tourism_Category" />
+          <EntitySet Name="tbl_Tourism_SubCategory" EntityType="Self.tbl_Tourism_SubCategory" />
+          <EntitySet Name="tbl_TourismMaster" EntityType="Self.tbl_TourismMaster" />
+          <EntitySet Name="tbl_UserDetails" EntityType="Self.tbl_UserDetails" />
+          <EntitySet Name="tbl_Ward_master" EntityType="Self.tbl_Ward_master" />
+          <EntitySet Name="tbl_wardMember_Master" EntityType="Self.tbl_wardMember_Master" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WMC_WebApplicationModelStoreContainer" CdmEntityContainer="WMC_WebApplicationEntities">
+          <EntitySetMapping Name="tbl_Category_Complaint">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Category_Complaint">
+              <MappingFragment StoreEntitySet="tbl_Category_Complaint">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="LastModifedDate" ColumnName="LastModifedDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CityMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_CityMaster">
+              <MappingFragment StoreEntitySet="tbl_CityMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StateID" ColumnName="StateID" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ComplaintMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_ComplaintMaster">
+              <MappingFragment StoreEntitySet="tbl_ComplaintMaster">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
+                <ScalarProperty Name="Category_fkid" ColumnName="Category_fkid" />
+                <ScalarProperty Name="ComplaintName" ColumnName="ComplaintName" />
+                <ScalarProperty Name="ComplaintDescription" ColumnName="ComplaintDescription" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Longitutde" ColumnName="Longitutde" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="City_fkid" ColumnName="City_fkid" />
+                <ScalarProperty Name="ShowIdentity" ColumnName="ShowIdentity" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_CountryMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_CountryMaster">
+              <MappingFragment StoreEntitySet="tbl_CountryMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Emergency_ContactUs">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Emergency_ContactUs">
+              <MappingFragment StoreEntitySet="tbl_Emergency_ContactUs">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_feedback_Master">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_feedback_Master">
+              <MappingFragment StoreEntitySet="tbl_feedback_Master">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="rateAmt" ColumnName="rateAmt" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="user_fkid" ColumnName="user_fkid" />
+                <ScalarProperty Name="adddate" ColumnName="adddate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_LikesMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_LikesMaster">
+              <MappingFragment StoreEntitySet="tbl_LikesMaster">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Master_fkid" ColumnName="Master_fkid" />
+                <ScalarProperty Name="SubMaster_fkid" ColumnName="SubMaster_fkid" />
+                <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
+                <ScalarProperty Name="Likes" ColumnName="Likes" />
+                <ScalarProperty Name="LastModifieddatetime" ColumnName="LastModifieddatetime" />
+                <ScalarProperty Name="customername" ColumnName="customername" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_MultipleFileUpload">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_MultipleFileUpload">
+              <MappingFragment StoreEntitySet="tbl_MultipleFileUpload">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Master_fkid" ColumnName="Master_fkid" />
+                <ScalarProperty Name="SubMaster_fkid" ColumnName="SubMaster_fkid" />
+                <ScalarProperty Name="filepath" ColumnName="filepath" />
+                <ScalarProperty Name="Lastmodifieddatetime" ColumnName="Lastmodifieddatetime" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NoticeBoardMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_NoticeBoardMaster">
+              <MappingFragment StoreEntitySet="tbl_NoticeBoardMaster">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="NoticeName" ColumnName="NoticeName" />
+                <ScalarProperty Name="NoticeDescription" ColumnName="NoticeDescription" />
+                <ScalarProperty Name="Image_Path" ColumnName="Image_Path" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="RequiredDays" ColumnName="RequiredDays" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="City_fkid" ColumnName="City_fkid" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Prabhag_Master">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Prabhag_Master">
+              <MappingFragment StoreEntitySet="tbl_Prabhag_Master">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Prabhag_Name" ColumnName="Prabhag_Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="adddate" ColumnName="adddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_StateMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_StateMaster">
+              <MappingFragment StoreEntitySet="tbl_StateMaster">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CountryID" ColumnName="CountryID" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_suggestionMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_suggestionMaster">
+              <MappingFragment StoreEntitySet="tbl_suggestionMaster">
+                <ScalarProperty Name="pkd" ColumnName="pkd" />
+                <ScalarProperty Name="user_fkid" ColumnName="user_fkid" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="imagepath" ColumnName="imagepath" />
+                <ScalarProperty Name="adddate" ColumnName="adddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Tourism_Category">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Tourism_Category">
+              <MappingFragment StoreEntitySet="tbl_Tourism_Category">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Category_Name" ColumnName="Category_Name" />
+                <ScalarProperty Name="Category_Description" ColumnName="Category_Description" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Tourism_SubCategory">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Tourism_SubCategory">
+              <MappingFragment StoreEntitySet="tbl_Tourism_SubCategory">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Category_fkid" ColumnName="Category_fkid" />
+                <ScalarProperty Name="SubCategory_Name" ColumnName="SubCategory_Name" />
+                <ScalarProperty Name="SubCategory_Description" ColumnName="SubCategory_Description" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TourismMaster">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_TourismMaster">
+              <MappingFragment StoreEntitySet="tbl_TourismMaster">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Sub_fkid" ColumnName="Sub_fkid" />
+                <ScalarProperty Name="city_fkid" ColumnName="city_fkid" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="InchargeName" ColumnName="InchargeName" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Lotitude" ColumnName="Lotitude" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="openingTime" ColumnName="openingTime" />
+                <ScalarProperty Name="ClosingTime" ColumnName="ClosingTime" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserDetails">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_UserDetails">
+              <MappingFragment StoreEntitySet="tbl_UserDetails">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="RegisteredDate" ColumnName="RegisteredDate" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="cid" ColumnName="cid" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Ward_master">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Ward_master">
+              <MappingFragment StoreEntitySet="tbl_Ward_master">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="prabhag_fkid" ColumnName="prabhag_fkid" />
+                <ScalarProperty Name="ward_Name" ColumnName="ward_Name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="adddate" ColumnName="adddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_wardMember_Master">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_wardMember_Master">
+              <MappingFragment StoreEntitySet="tbl_wardMember_Master">
+                <ScalarProperty Name="Ward_fkid" ColumnName="Ward_fkid" />
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Member_Name" ColumnName="Member_Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="adddate" ColumnName="adddate" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
