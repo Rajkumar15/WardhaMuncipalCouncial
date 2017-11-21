@@ -120,6 +120,7 @@ namespace WMC_App.Models.DAL
         public Nullable<int> Lid { get; set; }
         public Nullable<int> mid { get; set; }
         public Nullable<System.DateTime> mdate { get; set; }
+        public string ProdilePic { get; set; }
     }
     public partial class tbl_NoticeBoardMastersss
     {
@@ -147,5 +148,24 @@ namespace WMC_App.Models.DAL
     public class FileModel
     {        
         public HttpPostedFileBase[] files { get; set; }
-    }  
+    }
+    public partial class tbl_EmergencyContactCategoryss
+    {
+        public int pkid { get; set; }
+        public string CatgoryName { get; set; }
+        public string categoryDescription { get; set; }
+        public Nullable<int> Lid { get; set; }
+        public Nullable<int> md { get; set; }
+        public Nullable<System.DateTime> mdate { get; set; }
+        public Nullable<System.DateTime> LastModifiedDate { get; set; }
+    }
+    public partial class tbl_Emergency_ContactUsss
+    {
+        public int pkid { get; set; }
+        public string DeptName { get; set; }
+        public string MobileNo { get; set; }
+        public string Address { get; set; }
+        public Nullable<int> Status { get; set; }
+        public Nullable<int> Category_fkid { get; set; }
+    }
 }

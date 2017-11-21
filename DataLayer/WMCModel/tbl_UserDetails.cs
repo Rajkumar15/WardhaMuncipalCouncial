@@ -29,5 +29,6 @@ namespace DataLayer.WMCModel
         public Nullable<int> Lid { get; set; }
         public Nullable<int> mid { get; set; }
         public Nullable<System.DateTime> mdate { get; set; }
+        public string ProdilePic { get; set; }
     }
 }

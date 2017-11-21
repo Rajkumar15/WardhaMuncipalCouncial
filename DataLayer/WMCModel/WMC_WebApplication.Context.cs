@@ -43,5 +43,6 @@ namespace DataLayer.WMCModel
         public virtual DbSet<tbl_UserDetails> tbl_UserDetails { get; set; }
         public virtual DbSet<tbl_Ward_master> tbl_Ward_master { get; set; }
         public virtual DbSet<tbl_wardMember_Master> tbl_wardMember_Master { get; set; }
+        public virtual DbSet<tbl_EmergencyContactCategory> tbl_EmergencyContactCategory { get; set; }
     }
 }

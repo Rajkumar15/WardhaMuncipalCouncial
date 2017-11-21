@@ -29,7 +29,10 @@ namespace WMC_App.Models.DAL
         public Nullable<int> mid { get; set; }
         public Nullable<System.DateTime> mdate { get; set; }
         public Nullable<int> Likestatus { get; set; }
+        public string UserFullename { get; set; }
+        public string UserProfilepic { get; set; }
         public List<tbl_LikesMaster> LikeList { get; set; }
+       
       
     }
     public class LikeCustomList
@@ -155,5 +158,38 @@ namespace WMC_App.Models.DAL
         public Nullable<System.DateTime> mdate { get; set; }
         public Nullable<int> city_fkid { get; set; }          
         public List<tbl_MultipleFileUpload> fileupload {get;set;}         
+    }
+    public partial class tbl_Ward_masterAPI
+    {
+        public int pkid { get; set; }
+        public Nullable<int> prabhag_fkid { get; set; }
+        public string ward_Name { get; set; }
+        public string description { get; set; }
+        public string address { get; set; }
+        public Nullable<System.DateTime> adddate { get; set; }
+        public Nullable<int> status { get; set; }
+        public List<tbl_wardMember_Master> MemberList { get; set; }     
+    }
+    public partial class tbl_Prabhag_MasterAPI
+    {
+        public int pkid { get; set; }
+        public string Prabhag_Name { get; set; }
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> adddate { get; set; }
+        public Nullable<int> status { get; set; }
+        public List<tbl_Ward_masterAPI> WardList { get; set; }
+     
+    }
+    public partial class ReturnCOntactListApi
+    {
+        public int pkid { get; set; }
+        public string CatgoryName { get; set; }
+        public string categoryDescription { get; set; }
+        public Nullable<int> Lid { get; set; }
+        public Nullable<int> md { get; set; }
+        public Nullable<System.DateTime> mdate { get; set; }
+        public Nullable<System.DateTime> LastModifiedDate { get; set; }
+        public List<tbl_Emergency_ContactUs> Contact { get; set; }
     }
 }

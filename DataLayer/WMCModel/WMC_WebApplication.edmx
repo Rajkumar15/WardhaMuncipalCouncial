@@ -61,10 +61,23 @@
             <PropertyRef Name="pkid" />
           </Key>
           <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Category_fkid" Type="int" />
           <Property Name="DeptName" Type="nvarchar(max)" />
           <Property Name="MobileNo" Type="nvarchar(max)" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="Status" Type="int" />
+        </EntityType>
+        <EntityType Name="tbl_EmergencyContactCategory">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CatgoryName" Type="nvarchar(max)" />
+          <Property Name="categoryDescription" Type="nvarchar(max)" />
+          <Property Name="Lid" Type="int" />
+          <Property Name="md" Type="int" />
+          <Property Name="mdate" Type="datetime" />
+          <Property Name="LastModifiedDate" Type="datetime" />
         </EntityType>
         <EntityType Name="tbl_feedback_Master">
           <Key>
@@ -219,6 +232,7 @@
           <Property Name="Lid" Type="int" />
           <Property Name="mid" Type="int" />
           <Property Name="mdate" Type="datetime" />
+          <Property Name="ProdilePic" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="tbl_Ward_master">
           <Key>
@@ -251,6 +265,7 @@
           <EntitySet Name="tbl_ComplaintMaster" EntityType="Self.tbl_ComplaintMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CountryMaster" EntityType="Self.tbl_CountryMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Emergency_ContactUs" EntityType="Self.tbl_Emergency_ContactUs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_EmergencyContactCategory" EntityType="Self.tbl_EmergencyContactCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_feedback_Master" EntityType="Self.tbl_feedback_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_LikesMaster" EntityType="Self.tbl_LikesMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_MultipleFileUpload" EntityType="Self.tbl_MultipleFileUpload" Schema="dbo" store:Type="Tables" />
@@ -329,6 +344,7 @@
           <Property Name="MobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
+          <Property Name="Category_fkid" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_feedback_Master">
           <Key>
@@ -483,6 +499,7 @@
           <Property Name="Lid" Type="Int32" />
           <Property Name="mid" Type="Int32" />
           <Property Name="mdate" Type="DateTime" Precision="3" />
+          <Property Name="ProdilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="tbl_Ward_master">
           <Key>
@@ -528,7 +545,20 @@
           <EntitySet Name="tbl_UserDetails" EntityType="Self.tbl_UserDetails" />
           <EntitySet Name="tbl_Ward_master" EntityType="Self.tbl_Ward_master" />
           <EntitySet Name="tbl_wardMember_Master" EntityType="Self.tbl_wardMember_Master" />
+          <EntitySet Name="tbl_EmergencyContactCategory" EntityType="WMC_WebApplicationModel.tbl_EmergencyContactCategory" />
         </EntityContainer>
+        <EntityType Name="tbl_EmergencyContactCategory">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" />
+          <Property Name="CatgoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="categoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="md" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -593,6 +623,7 @@
           <EntitySetMapping Name="tbl_Emergency_ContactUs">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Emergency_ContactUs">
               <MappingFragment StoreEntitySet="tbl_Emergency_ContactUs">
+                <ScalarProperty Name="Category_fkid" ColumnName="Category_fkid" />
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
                 <ScalarProperty Name="DeptName" ColumnName="DeptName" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
@@ -748,6 +779,7 @@
           <EntitySetMapping Name="tbl_UserDetails">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_UserDetails">
               <MappingFragment StoreEntitySet="tbl_UserDetails">
+                <ScalarProperty Name="ProdilePic" ColumnName="ProdilePic" />
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
                 <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -790,6 +822,19 @@
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_EmergencyContactCategory">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_EmergencyContactCategory">
+              <MappingFragment StoreEntitySet="tbl_EmergencyContactCategory">
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+                <ScalarProperty Name="md" ColumnName="md" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+                <ScalarProperty Name="CatgoryName" ColumnName="CatgoryName" />
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

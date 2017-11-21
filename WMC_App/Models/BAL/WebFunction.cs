@@ -44,6 +44,13 @@ namespace WMC_App.Models.BAL
                             var filename = HttpContext.Current.Server.MapPath("/UploadFiles/Tourism/" + dates + filepost.FileName);
                             filepost.SaveAs(path);
                         }
+                        if (numb == 4)
+                        {
+                            returnpath = "/UploadFiles/Userspic/" + dates + filepost.FileName;
+                            path = Path.Combine(HttpContext.Current.Server.MapPath("/UploadFiles/Userspic/"), dates + filepost.FileName);
+                            var filename = HttpContext.Current.Server.MapPath("/UploadFiles/Userspic/" + dates + filepost.FileName);
+                            filepost.SaveAs(path);
+                        }
                         return returnpath;
                     }
                     else

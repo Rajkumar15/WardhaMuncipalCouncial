@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WMC_App.Models.BAL;
 using WMC_App.Models.DAL;
 
 namespace WMC_App.Controllers
@@ -130,7 +131,7 @@ namespace WMC_App.Controllers
             return View(abc);
         }
         [HttpPost]
-        public ActionResult EditUserDetails(tbl_UserDetailsss model)
+        public ActionResult EditUserDetails(tbl_UserDetailsss model,HttpPostedFileBase pic)
         {
             try
             {
@@ -141,6 +142,16 @@ namespace WMC_App.Controllers
                 abc.RoleName = model.RoleName;
                 abc.EmailId = model.EmailId;
                 abc.LastModifiedDate = DateTime.Now;
+                if (pic != null)
+                {
+                    string path = System.Web.HttpContext.Current.Server.MapPath(model.ProdilePic);
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    WebFunction web = new WebFunction();
+                    model.ProdilePic = web.Storefile(pic, 4);
+                }
                 _user.Update(abc);
                 return RedirectToAction("Register", "Account");
             }

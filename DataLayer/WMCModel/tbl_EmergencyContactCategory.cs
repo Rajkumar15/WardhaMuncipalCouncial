@@ -12,13 +12,14 @@ namespace DataLayer.WMCModel
     using System;
     using System.Collections.Generic;
     
-    public partial class tbl_Emergency_ContactUs
+    public partial class tbl_EmergencyContactCategory
     {
         public int pkid { get; set; }
-        public string DeptName { get; set; }
-        public string MobileNo { get; set; }
-        public string Address { get; set; }
-        public Nullable<int> Status { get; set; }
-        public Nullable<int> Category_fkid { get; set; }
+        public string CatgoryName { get; set; }
+        public string categoryDescription { get; set; }
+        public Nullable<int> Lid { get; set; }
+        public Nullable<int> md { get; set; }
+        public Nullable<System.DateTime> mdate { get; set; }
+        public Nullable<System.DateTime> LastModifiedDate { get; set; }
     }
 }

@@ -233,9 +233,11 @@ namespace WMC_App.Controllers
                             if (db.tbl_ComplaintMaster.Where(x => x.City_fkid == _cityid).OrderByDescending(x => x.pkid).Count() <= 10)
                             {
                                 var data = db.tbl_ComplaintMaster.Where(x => x.City_fkid == _cityid).OrderByDescending(x => x.pkid).Skip(skip * pageSize).Take(pageSize).ToList();
+                              
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
+                                    tbl_UserDetails userd = db.tbl_UserDetails.Where(x => x.User_fkid == item.User_fkid).FirstOrDefault();
                                     model.pkid = item.pkid;
                                     model.Category_fkid = item.Category_fkid;
                                     model.ComplaintDescription = item.ComplaintDescription;
@@ -249,8 +251,13 @@ namespace WMC_App.Controllers
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
                                     model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    if(userd != null){
+                                        model.UserProfilepic = userd.ProdilePic;
+                                        model.UserFullename = userd.FullName;
+                                    }                                  
                                     DesignResult.Add(model);
-                                }
+                                }                              
+                   
                                 return Json(DesignResult);
                             }
                             else
@@ -259,6 +266,7 @@ namespace WMC_App.Controllers
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
+                                    tbl_UserDetails userd = db.tbl_UserDetails.Where(x => x.User_fkid == item.User_fkid).FirstOrDefault();
                                     model.pkid = item.pkid;
                                     model.Category_fkid = item.Category_fkid;
                                     model.ComplaintDescription = item.ComplaintDescription;
@@ -272,6 +280,11 @@ namespace WMC_App.Controllers
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
                                     model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    if (userd != null)
+                                    {
+                                        model.UserProfilepic = userd.ProdilePic;
+                                        model.UserFullename = userd.FullName;
+                                    }               
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -616,7 +629,55 @@ namespace WMC_App.Controllers
             returnAPiFlag abc = new returnAPiFlag();       
             try
             {
-                var TList = db.tbl_Prabhag_Master.ToList();
+                 
+              
+                List<tbl_Prabhag_MasterAPI> TList = new List<tbl_Prabhag_MasterAPI>();
+                var data = db.tbl_Prabhag_Master.ToList();
+                foreach (var item in data)
+                {
+                    tbl_Prabhag_MasterAPI Single = new tbl_Prabhag_MasterAPI();
+                    Single.pkid = item.pkid;
+                    Single.Prabhag_Name = item.Prabhag_Name;
+                    Single.Address = item.Address;
+                    Single.Description = item.Description;
+                    Single.adddate = item.adddate;
+                    Single.status = item.status;
+
+                    List<tbl_Ward_masterAPI> LLwardsingle = new List<tbl_Ward_masterAPI>();
+                    foreach (var wardd in db.tbl_Ward_master.Where(x=>x.prabhag_fkid == Single.pkid).ToList())
+                    {
+                        tbl_Ward_masterAPI wardsingle = new tbl_Ward_masterAPI();
+                     
+                        wardsingle.pkid = wardd.pkid;
+                        wardsingle.prabhag_fkid = wardd.prabhag_fkid;
+                        wardsingle.ward_Name = wardd.ward_Name;
+                        wardsingle.adddate = wardd.adddate;
+                        wardsingle.address = wardd.address;
+                        wardsingle.description = wardd.description;
+                        wardsingle.status = wardd.status;
+
+                        List<tbl_wardMember_Master> LLmembersingle = new List<tbl_wardMember_Master>();
+                        foreach (var Member in db.tbl_wardMember_Master.Where(x => x.Ward_fkid == wardsingle.pkid).ToList())
+                        {
+                            tbl_wardMember_Master membersingle = new tbl_wardMember_Master();
+                           
+                            membersingle.pkid = Member.pkid;
+                            membersingle.Ward_fkid = Member.Ward_fkid;
+                            membersingle.Member_Name = Member.Member_Name;
+                            membersingle.adddate = Member.adddate;
+                            membersingle.Description = Member.Description;
+                            membersingle.status = Member.status;
+                            membersingle.Address = Member.Address;
+                            membersingle.MobileNo = Member.MobileNo;
+                            LLmembersingle.Add(membersingle);
+                        }
+                        wardsingle.MemberList = LLmembersingle;
+                        LLwardsingle.Add(wardsingle);
+                    }
+                    Single.WardList = LLwardsingle;
+                    TList.Add(Single);
+                }
+
                 return Json(TList);
             }
             catch (Exception e)
@@ -627,41 +688,70 @@ namespace WMC_App.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IHttpActionResult> WardList()
-        {
-            returnAPiFlag abc = new returnAPiFlag();
-            try
-            {
-                var TList = db.tbl_Ward_master.ToList();
-                return Json(TList);
-            }
-            catch (Exception e)
-            {
-                abc.status = "Failed";
-                abc.flag = false;
-                return Json(abc);
-            }
-        }
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<IHttpActionResult> WardList()
+        //{
+        //    returnAPiFlag abc = new returnAPiFlag();
+        //    try
+        //    {
+        //        List<tbl_Ward_masterAPI> TList = new List<tbl_Ward_masterAPI>();
+        //       var data = db.tbl_Ward_master.ToList();
+        //       foreach (var item in data)
+        //       {
+        //           tbl_Ward_masterAPI Single = new tbl_Ward_masterAPI();
+        //           Single.pkid = item.pkid;
+        //           Single.prabhag_fkid = item.prabhag_fkid;
+        //           Single.ward_Name = item.ward_Name;
+        //           Single.adddate = item.adddate;
+        //           Single.address = item.address;
+        //           Single.description = item.description;
+        //           Single.status = item.status;                                
+        //           Single.PrabhagList = db.tbl_Prabhag_Master.ToList();
+        //           TList.Add(Single);
+        //       }
+        //        return Json(TList);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        abc.status = "Failed";
+        //        abc.flag = false;
+        //        return Json(abc);
+        //    }
+        //}
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IHttpActionResult> WardMemberList()
-        {
-            returnAPiFlag abc = new returnAPiFlag();
-            try
-            {
-                var TList = db.tbl_wardMember_Master.ToList();
-                return Json(TList);
-            }
-            catch (Exception e)
-            {
-                abc.status = "Failed";
-                abc.flag = false;
-                return Json(abc);
-            }
-        }
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<IHttpActionResult> WardMemberList()
+        //{
+        //    returnAPiFlag abc = new returnAPiFlag();
+        //    try
+        //    {
+        //        List<tbl_wardMember_MasterAPI> TList = new List<tbl_wardMember_MasterAPI>();
+        //        var data = db.tbl_wardMember_Master.ToList();
+        //        foreach (var item in data)
+        //        {
+        //            tbl_wardMember_MasterAPI Single = new tbl_wardMember_MasterAPI();
+        //            Single.pkid = item.pkid;
+        //            Single.Ward_fkid = item.Ward_fkid;
+        //            Single.Member_Name = item.Member_Name;
+        //            Single.adddate = item.adddate;
+        //            Single.Description = item.Description;
+        //            Single.status = item.status;
+        //            Single.Address = item.Address;
+        //            Single.MobileNo = item.MobileNo;
+        //            Single.WardList = db.tbl_Ward_master.ToList();
+        //            TList.Add(Single);
+        //        }
+        //        return Json(TList);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        abc.status = "Failed";
+        //        abc.flag = false;
+        //        return Json(abc);
+        //    }
+        //}
 
         [Authorize]
         [HttpGet]
@@ -670,7 +760,25 @@ namespace WMC_App.Controllers
             returnAPiFlag abc = new returnAPiFlag();
             try
             {
-                var TList = db.tbl_Emergency_ContactUs.ToList();
+                List<ReturnCOntactListApi> TList = new List<ReturnCOntactListApi>();
+                var data = db.tbl_EmergencyContactCategory.ToList();
+                foreach (var item in data)
+                {
+                    ReturnCOntactListApi Single = new ReturnCOntactListApi();
+                    Single.pkid = item.pkid;
+                    Single.CatgoryName = item.CatgoryName;
+                    Single.categoryDescription = item.categoryDescription;
+                    Single.LastModifiedDate = item.LastModifiedDate;
+
+                    List<tbl_Emergency_ContactUs> LLwardsingle = new List<tbl_Emergency_ContactUs>();
+                    foreach (var cont in db.tbl_Emergency_ContactUs.Where(x => x.Category_fkid == Single.pkid).ToList())
+                    {
+                        tbl_Emergency_ContactUs wardsingle = cont;
+                        LLwardsingle.Add(wardsingle);
+                    }
+                    Single.Contact = LLwardsingle;
+                    TList.Add(Single);
+                }
                 return Json(TList);
             }
             catch (Exception e)

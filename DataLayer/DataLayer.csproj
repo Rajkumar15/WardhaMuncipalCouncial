@@ -65,6 +65,9 @@
     <Compile Include="WMCModel\tbl_CountryMaster.cs">
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
+    <Compile Include="WMCModel\tbl_EmergencyContactCategory.cs">
+      <DependentUpon>WMC_WebApplication.tt</DependentUpon>
+    </Compile>
     <Compile Include="WMCModel\tbl_Emergency_ContactUs.cs">
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
