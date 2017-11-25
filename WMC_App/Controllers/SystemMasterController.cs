@@ -18,13 +18,20 @@ namespace WMC_App.Controllers
         public readonly IRepository<tbl_Category_Complaint> _catComplaint;
         public readonly IRepository<tbl_Tourism_Category> _catTourism;
         public readonly IRepository<tbl_Tourism_SubCategory> _subcatTourism;
+        public readonly IRepository<tbl_Prabhag_Master> _prabhag;
+        public readonly IRepository<tbl_Ward_master> _ward;
+        public readonly IRepository<tbl_wardMember_Master> _wardmember;
 
-        public SystemMasterController(IRepository<tbl_UserDetails> user, IRepository<tbl_Category_Complaint> catComplaint, IRepository<tbl_Tourism_Category> catTourism, IRepository<tbl_Tourism_SubCategory> subcatTourism)
+        public SystemMasterController(IRepository<tbl_UserDetails> user, IRepository<tbl_Category_Complaint> catComplaint, IRepository<tbl_Tourism_Category> catTourism, IRepository<tbl_Tourism_SubCategory> subcatTourism,
+            IRepository<tbl_Prabhag_Master> prabhag, IRepository<tbl_Ward_master> ward, IRepository<tbl_wardMember_Master> wardmember)
         {
             _user = user;
             _catComplaint = catComplaint;
             _catTourism = catTourism;
             _subcatTourism = subcatTourism;
+            _prabhag = prabhag;
+            _ward=ward;
+            _wardmember=wardmember;
         }
         // GET: SystemMaster
         [HttpGet]
@@ -317,6 +324,313 @@ namespace WMC_App.Controllers
             abc.AddressLine1 = data.AddressLine1;
             abc.AddressLine2 = data.AddressLine2;
             return View(abc);
+        }
+
+        [HttpGet]
+        public ActionResult PrabhagEntry(string id)
+        {
+           
+            if (!String.IsNullOrWhiteSpace(id))
+            {
+                int _id = Convert.ToInt32(id);
+                tbl_Prabhag_Master model = _prabhag.Get(_id);
+                tbl_Prabhag_Masterss abc = new tbl_Prabhag_Masterss();
+                abc.pkid = model.pkid;
+                abc.Prabhag_Name = model.Prabhag_Name;
+                abc.Address = model.Address;
+                abc.Description = model.Description;
+                return View(abc);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PrabhagEntry(tbl_Prabhag_Masterss model)
+        {          
+            try
+            {
+                if (model.pkid == 0)
+                {
+                    tbl_Prabhag_Master abc = new tbl_Prabhag_Master();
+                    abc.Prabhag_Name = model.Prabhag_Name;
+                    abc.Address = model.Address;
+                    abc.Description = model.Description;
+                    abc.adddate = DateTime.Now;
+                    _prabhag.Add(abc);
+                }
+                else
+                {
+                    int _id = Convert.ToInt32(model.pkid);
+                    tbl_Prabhag_Master abc = _prabhag.Get(_id);
+                    abc.pkid = model.pkid;
+                    abc.Prabhag_Name = model.Prabhag_Name;
+                    abc.Address = model.Address;
+                    abc.Description = model.Description;
+                    abc.adddate = DateTime.Now;
+                    _prabhag.Update(abc);
+                }
+                return RedirectToAction("PrabhagEntry", "SystemMaster");
+            }
+            catch (Exception e)
+            {
+                Commonfunction.LogError(e, Server.MapPath("~/Log.txt"));
+                ViewBag.Exception = e.Message;
+                return View();
+            }
+        }
+
+        public ActionResult GetPrabhagList()
+        {
+            var search = Request.Form.GetValues("search[value]")[0];
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Find Order Column
+            string sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            string sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            //dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            try
+            {
+                var v = (from a in _prabhag.GetAll()
+                         select new
+                         {
+                             pkid = a.pkid,
+                             name = a.Prabhag_Name,
+                             add = a.Address,
+                             des = a.Description
+                         });
+                if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
+                {
+                    v = (from b in v.Where(x => x.name.ToLower().Contains(search.ToLower()) || x.add.ToLower().Contains(search.ToLower()) || x.des.ToLower().Contains(search.ToLower())) select b);
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    // v = v.OrderBy(sortColumn, sortColumnDir);
+                }
+                recordsTotal = v.Count();
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        [HttpGet]
+        public ActionResult WardEntry(string id)
+        {
+            ViewBag.prabhag = new SelectList(_prabhag.GetAll(), "pkid", "Prabhag_Name");
+            if (!String.IsNullOrWhiteSpace(id))
+            {
+                int _id = Convert.ToInt32(id);
+                tbl_Ward_master model = _ward.Get(_id);
+                tbl_Ward_masterss abc = new tbl_Ward_masterss();
+                abc.pkid = model.pkid;
+                abc.prabhag_fkid = model.prabhag_fkid;
+                abc.ward_Name=model.ward_Name;
+                abc.description=model.description;              
+                abc.address = model.address;
+                abc.adddate = DateTime.Now;
+                return View(abc);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult WardEntry(tbl_Ward_masterss model)
+        {
+            ViewBag.prabhag = new SelectList(_prabhag.GetAll(), "pkid", "Prabhag_Name");
+            try
+            {
+                if (model.pkid == 0)
+                {
+                    tbl_Ward_master abc = new tbl_Ward_master();
+                    abc.prabhag_fkid = model.prabhag_fkid;
+                    abc.ward_Name = model.ward_Name;
+                    abc.description = model.description;
+                    abc.address = model.address;
+                    abc.adddate = DateTime.Now;
+                    _ward.Add(abc);
+                }
+                else
+                {
+                    int _id = Convert.ToInt32(model.pkid);
+                    tbl_Ward_master abc = _ward.Get(_id);
+                    abc.pkid = model.pkid;
+                    abc.prabhag_fkid = model.prabhag_fkid;
+                    abc.ward_Name = model.ward_Name;
+                    abc.description = model.description;
+                    abc.address = model.address;
+                    abc.adddate = DateTime.Now;
+                    _ward.Update(abc);
+                }
+                return RedirectToAction("WardEntry", "SystemMaster");
+            }
+            catch (Exception e)
+            {
+                Commonfunction.LogError(e, Server.MapPath("~/Log.txt"));
+                ViewBag.Exception = e.Message;
+                return View();
+            }
+        }
+
+        public ActionResult GetwardList()
+        {
+            var search = Request.Form.GetValues("search[value]")[0];
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Find Order Column
+            string sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            string sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            //dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            try
+            {
+                var v = (from a in _ward.GetAll()
+                         select new
+                         {
+                             pkid = a.pkid,
+                             prabhag = _prabhag.Get(a.prabhag_fkid).Prabhag_Name,
+                             name = a.ward_Name,
+                             add = a.address,
+                             des = a.description
+                         });
+                if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
+                {
+                    v = (from b in v.Where(x => x.name.ToLower().Contains(search.ToLower()) || x.add.ToLower().Contains(search.ToLower()) || x.des.ToLower().Contains(search.ToLower()) || x.prabhag.ToLower().Contains(search.ToLower())) select b);
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    // v = v.OrderBy(sortColumn, sortColumnDir);
+                }
+                recordsTotal = v.Count();
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+
+        [HttpGet]
+        public ActionResult WardMemberEntry(string id)
+        {
+            ViewBag.ward = new SelectList(_ward.GetAll(), "pkid", "ward_Name");
+            if (!String.IsNullOrWhiteSpace(id))
+            {
+                int _id = Convert.ToInt32(id);
+                tbl_wardMember_Master model = _wardmember.Get(_id);
+                tbl_wardMember_Masterss abc = new tbl_wardMember_Masterss();
+                abc.pkid = model.pkid;
+                abc.Ward_fkid = model.Ward_fkid;
+                abc.Member_Name = model.Member_Name;
+                abc.Description = model.Description;
+                abc.adddate = model.adddate;
+                abc.status = model.status;
+                abc.Address = model.Address;
+                abc.MobileNo = model.MobileNo;
+                return View(abc);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult WardMemberEntry(tbl_wardMember_Masterss model)
+        {
+            ViewBag.ward = new SelectList(_ward.GetAll(), "pkid", "ward_Name");
+            try
+            {
+                if (model.pkid == 0)
+                {
+                    tbl_wardMember_Master abc = new tbl_wardMember_Master();
+                    abc.Ward_fkid = model.Ward_fkid;
+                    abc.Member_Name = model.Member_Name;
+                    abc.Description = model.Description;
+                    abc.adddate = DateTime.Now;
+                    abc.status = model.status;
+                    abc.Address = model.Address;
+                    abc.MobileNo = model.MobileNo;
+                    _wardmember.Add(abc);
+                }
+                else
+                {
+                    int _id = Convert.ToInt32(model.pkid);
+                    tbl_wardMember_Master abc = _wardmember.Get(_id);
+                    abc.pkid = model.pkid;
+                    abc.Ward_fkid = model.Ward_fkid;
+                    abc.Member_Name = model.Member_Name;
+                    abc.Description = model.Description;
+                    abc.adddate = DateTime.Now;
+                    abc.status = model.status;
+                    abc.Address = model.Address;
+                    abc.MobileNo = model.MobileNo;
+                    _wardmember.Update(abc);
+                }
+                return RedirectToAction("WardMemberEntry", "SystemMaster");
+            }
+            catch (Exception e)
+            {
+                Commonfunction.LogError(e, Server.MapPath("~/Log.txt"));
+                ViewBag.Exception = e.Message;
+                return View();
+            }
+        }
+
+        public ActionResult GetwardMemberList()
+        {
+            var search = Request.Form.GetValues("search[value]")[0];
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Find Order Column
+            string sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            string sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            //dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            try
+            {
+                var v = (from a in _wardmember.GetAll()
+                         select new
+                         {
+                             pkid = a.pkid,
+                             ward = _ward.Get(a.Ward_fkid).ward_Name,
+                             name = a.Member_Name,
+                             add = a.Address,
+                             des = a.Description,
+                              mob = a.MobileNo
+                         });
+                if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
+                {
+                    v = (from b in v.Where(x => x.name.ToLower().Contains(search.ToLower()) || x.mob.ToLower().Contains(search.ToLower()) || x.add.ToLower().Contains(search.ToLower()) || x.des.ToLower().Contains(search.ToLower()) || x.ward.ToLower().Contains(search.ToLower())) select b);
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    // v = v.OrderBy(sortColumn, sortColumnDir);
+                }
+                recordsTotal = v.Count();
+                var data = v.Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = "" }, JsonRequestBehavior.AllowGet);
+
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace WMC_App.Controllers
     //[Authorize]
     public class AccountController : Controller
     {
+        WMC_WebApplicationEntities db = new WMC_WebApplicationEntities();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -278,8 +279,31 @@ namespace WMC_App.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (!string.IsNullOrEmpty(model.Email))
+                    {
+                        int mobdt = db.tbl_UserDetails.Where(x => x.EmailId == model.Email).Count();
+                        if (mobdt > 0)
+                        {
+                            ViewBag.Exception = "User Email Already Taken.";
+                            return View();
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(model.MobileNumber))
+                    {
+                        int mobdt = db.tbl_UserDetails.Where(x => x.ContactNumber == model.MobileNumber).Count();
+                        if (mobdt > 0)
+                        {
+                            ViewBag.Exception = "User Mobile Number Already Taken.";
+                            return View();
+                        }
+                    }
                     string UUNAME = "";
-                    if (string.IsNullOrEmpty(model.Email)) { UUNAME = model.MobileNumber; } else { UUNAME = model.Email; }
+                    if (string.IsNullOrEmpty(model.Email)) { 
+                        UUNAME = model.MobileNumber;                      
+
+                    } else {
+                        UUNAME = model.Email;                      
+                    }
                     var user = new ApplicationUser { UserName = UUNAME, Email = model.Email };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
@@ -293,7 +317,6 @@ namespace WMC_App.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
 
                         TempData["id"] = currentUser.Id;
                         TempData["role"] = model.UserRoles;

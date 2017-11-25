@@ -20,7 +20,7 @@ namespace WMC_App.Controllers
     public class CustomerAppController : ApiController
     {
         WMC_WebApplicationEntities db = new WMC_WebApplicationEntities();
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IHttpActionResult> Register(RegisterViewModel model)
         {
@@ -33,18 +33,37 @@ namespace WMC_App.Controllers
                     int co = 0;
                     if (ModelState.IsValid)
                     {
+                        if (!string.IsNullOrEmpty(model.Email))
+                        {
+                            int mobdt = db.tbl_UserDetails.Where(x => x.EmailId == model.Email).Count();
+                            if (mobdt > 0)
+                            {
+                                abc.status = "Email Already Taken";
+                                abc.flag = false;
+                                return Json(abc);
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(model.MobileNumber))
+                        {
+                            int mobdt = db.tbl_UserDetails.Where(x => x.ContactNumber == model.MobileNumber).Count();
+                            if (mobdt > 0)
+                            {
+                                abc.status = "Mobile Already Taken";
+                                abc.flag = false;
+                                return Json(abc);
+                            }
+                        }
                         string UUNAME = "";
                         if (string.IsNullOrEmpty(model.Email))
                         {
                             UUNAME = model.MobileNumber;
-
                         }
                         else
                         {
                             UUNAME = model.Email;
                         }
-                        if (!string.IsNullOrEmpty(model.Email)) { co = co + db.tbl_UserDetails.Where(x => x.EmailId == model.Email).Count(); }
-                        if (!string.IsNullOrEmpty(model.MobileNumber)) { co = co + db.tbl_UserDetails.Where(x => x.ContactNumber == model.MobileNumber.Trim()).Count(); }
+                        if (!string.IsNullOrEmpty(model.Email)) { co = co + db.tbl_UserDetails.Where(x => x.EmailId.ToLower() == model.Email.ToLower()).Count(); }
+                        if (!string.IsNullOrEmpty(model.MobileNumber)) { co = co + db.tbl_UserDetails.Where(x => x.ContactNumber.Trim() == model.MobileNumber.Trim()).Count(); }
                         if (co > 0)
                         {
                             abc.status = "Mobile Or Email Already Taken";
@@ -213,7 +232,7 @@ namespace WMC_App.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IHttpActionResult> ComplaintListPerUser(int skip, int pageSize, string cityid,int User_Wise)
+        public async Task<IHttpActionResult> ComplaintListPerUser(int skip, int pageSize, string cityid, int User_Wise)
         {
             returnAPiFlag abc = new returnAPiFlag();
             List<ReturnComplaintAPI> DesignResult = new List<ReturnComplaintAPI>();
@@ -233,7 +252,7 @@ namespace WMC_App.Controllers
                             if (db.tbl_ComplaintMaster.Where(x => x.City_fkid == _cityid).OrderByDescending(x => x.pkid).Count() <= 10)
                             {
                                 var data = db.tbl_ComplaintMaster.Where(x => x.City_fkid == _cityid).OrderByDescending(x => x.pkid).Skip(skip * pageSize).Take(pageSize).ToList();
-                              
+
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
@@ -250,14 +269,21 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
-                                    if(userd != null){
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                                     {
+                                                                         customername = a.customername,
+                                                                         Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                                     }).ToList();
+
+                                    if (userd != null)
+                                    {
                                         model.UserProfilepic = userd.ProdilePic;
                                         model.UserFullename = userd.FullName;
-                                    }                                  
+                                    }
                                     DesignResult.Add(model);
-                                }                              
-                   
+                                }
+
                                 return Json(DesignResult);
                             }
                             else
@@ -279,12 +305,17 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
                                     if (userd != null)
                                     {
                                         model.UserProfilepic = userd.ProdilePic;
                                         model.UserFullename = userd.FullName;
-                                    }               
+                                    }
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -301,6 +332,7 @@ namespace WMC_App.Controllers
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
+                                    tbl_UserDetails userd = db.tbl_UserDetails.Where(x => x.User_fkid == item.User_fkid).FirstOrDefault();
                                     model.pkid = item.pkid;
                                     model.Category_fkid = item.Category_fkid;
                                     model.ComplaintDescription = item.ComplaintDescription;
@@ -313,7 +345,17 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
+                                    if (userd != null)
+                                    {
+                                        model.UserProfilepic = userd.ProdilePic;
+                                        model.UserFullename = userd.FullName;
+                                    }
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -324,6 +366,7 @@ namespace WMC_App.Controllers
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
+                                    tbl_UserDetails userd = db.tbl_UserDetails.Where(x => x.User_fkid == item.User_fkid).FirstOrDefault();
                                     model.pkid = item.pkid;
                                     model.Category_fkid = item.Category_fkid;
                                     model.ComplaintDescription = item.ComplaintDescription;
@@ -336,7 +379,17 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
+                                    if (userd != null)
+                                    {
+                                        model.UserProfilepic = userd.ProdilePic;
+                                        model.UserFullename = userd.FullName;
+                                    }
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -371,7 +424,12 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -394,7 +452,12 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -407,7 +470,7 @@ namespace WMC_App.Controllers
                         {
                             if (db.tbl_ComplaintMaster.Where(x => x.User_fkid == id).OrderByDescending(x => x.pkid).Count() <= 10)
                             {
-                                var data = db.tbl_ComplaintMaster.Where(x=>x.User_fkid == id).OrderByDescending(x => x.pkid).Skip(skip * pageSize).Take(pageSize).ToList();
+                                var data = db.tbl_ComplaintMaster.Where(x => x.User_fkid == id).OrderByDescending(x => x.pkid).Skip(skip * pageSize).Take(pageSize).ToList();
                                 foreach (var item in data)
                                 {
                                     ReturnComplaintAPI model = new ReturnComplaintAPI();
@@ -423,7 +486,12 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -446,7 +514,12 @@ namespace WMC_App.Controllers
                                     model.ImagePath = item.ImagePath;
                                     model.LastModifiedDate = item.LastModifiedDate;
                                     model.Likestatus = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid && x.User_fkid == id).Count();
-                                    model.LikeList = db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList();
+                                    model.LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == item.pkid).ToList()
+                                                      select new tbl_LikesMasterAPi
+                                                      {
+                                                          customername = a.customername,
+                                                          Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                                      }).ToList();
                                     DesignResult.Add(model);
                                 }
                                 return Json(DesignResult);
@@ -626,11 +699,11 @@ namespace WMC_App.Controllers
         [HttpGet]
         public async Task<IHttpActionResult> PrabhagList()
         {
-            returnAPiFlag abc = new returnAPiFlag();       
+            returnAPiFlag abc = new returnAPiFlag();
             try
             {
-                 
-              
+
+
                 List<tbl_Prabhag_MasterAPI> TList = new List<tbl_Prabhag_MasterAPI>();
                 var data = db.tbl_Prabhag_Master.ToList();
                 foreach (var item in data)
@@ -644,10 +717,10 @@ namespace WMC_App.Controllers
                     Single.status = item.status;
 
                     List<tbl_Ward_masterAPI> LLwardsingle = new List<tbl_Ward_masterAPI>();
-                    foreach (var wardd in db.tbl_Ward_master.Where(x=>x.prabhag_fkid == Single.pkid).ToList())
+                    foreach (var wardd in db.tbl_Ward_master.Where(x => x.prabhag_fkid == Single.pkid).ToList())
                     {
                         tbl_Ward_masterAPI wardsingle = new tbl_Ward_masterAPI();
-                     
+
                         wardsingle.pkid = wardd.pkid;
                         wardsingle.prabhag_fkid = wardd.prabhag_fkid;
                         wardsingle.ward_Name = wardd.ward_Name;
@@ -660,7 +733,7 @@ namespace WMC_App.Controllers
                         foreach (var Member in db.tbl_wardMember_Master.Where(x => x.Ward_fkid == wardsingle.pkid).ToList())
                         {
                             tbl_wardMember_Master membersingle = new tbl_wardMember_Master();
-                           
+
                             membersingle.pkid = Member.pkid;
                             membersingle.Ward_fkid = Member.Ward_fkid;
                             membersingle.Member_Name = Member.Member_Name;
@@ -800,8 +873,8 @@ namespace WMC_App.Controllers
                 string id;
                 id = User.Identity.GetUserId();
                 id = RequestContext.Principal.Identity.GetUserId();
-                var LikeList = db.tbl_LikesMaster.Where(x=>x.User_fkid == id && x.Master_fkid == 1).ToList();
-            
+                var LikeList = db.tbl_LikesMaster.Where(x => x.User_fkid == id && x.Master_fkid == 1).ToList();
+
                 foreach (var item in LikeList)
                 {
                     tbl_ComplaintMaster Single = new tbl_ComplaintMaster();
@@ -880,7 +953,7 @@ namespace WMC_App.Controllers
                 returnAPiFlag abc = new returnAPiFlag();
                 if (model.pkid == 0)
                 {
-                    var httpRequest = HttpContext.Current.Request;                   
+                    var httpRequest = HttpContext.Current.Request;
                     model.LastModifiedDate = DateTime.Now;
                     model.User_fkid = id;
                     db.tbl_UserDetails.Add(model);
@@ -889,7 +962,7 @@ namespace WMC_App.Controllers
                     abc.flag = true;
                 }
                 else
-                {                    
+                {
                     model.LastModifiedDate = DateTime.Now;
                     db.tbl_UserDetails.Attach(model);
                     db.Entry(model).State = EntityState.Modified;
@@ -957,7 +1030,7 @@ namespace WMC_App.Controllers
             }
         }
 
-       
+
 
     }
 }

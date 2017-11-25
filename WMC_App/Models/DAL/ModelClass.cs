@@ -168,4 +168,34 @@ namespace WMC_App.Models.DAL
         public Nullable<int> Status { get; set; }
         public Nullable<int> Category_fkid { get; set; }
     }
+    public partial class tbl_Prabhag_Masterss
+    {
+        public int pkid { get; set; }
+        public string Prabhag_Name { get; set; }
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> adddate { get; set; }
+        public Nullable<int> status { get; set; }
+    }
+    public partial class tbl_Ward_masterss
+    {
+        public int pkid { get; set; }
+        public Nullable<int> prabhag_fkid { get; set; }
+        public string ward_Name { get; set; }
+        public string description { get; set; }
+        public string address { get; set; }
+        public Nullable<System.DateTime> adddate { get; set; }
+        public Nullable<int> status { get; set; }
+    }
+    public partial class tbl_wardMember_Masterss
+    {
+        public int pkid { get; set; }
+        public string Member_Name { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.DateTime> adddate { get; set; }
+        public Nullable<int> status { get; set; }
+        public string Address { get; set; }
+        public string MobileNo { get; set; }
+        public Nullable<int> Ward_fkid { get; set; }
+    }
 }

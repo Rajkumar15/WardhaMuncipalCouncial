@@ -41,7 +41,7 @@ namespace WMC_App.Controllers
                 try { funame = TempData["fname"].ToString(); }
                 catch { }
                 string mobino = null;
-                try { TempData["mobi"].ToString(); }
+                try { mobino = TempData["mobi"].ToString(); }
                 catch { }
 
                 tbl_UserDetails abc = new tbl_UserDetails();
@@ -98,7 +98,7 @@ namespace WMC_App.Controllers
                          });
                 if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
                 {
-                    v = (from b in v.Where(x => x.fullname.ToLower().Contains(search.ToLower()) || x.add.ToLower().Contains(search.ToLower()) || x.role.Contains(search)) select b);
+                    v = (from b in v.Where(x => x.fullname.ToLower().Contains(search.ToLower()) || x.mob.Contains(search) || x.add.ToLower().Contains(search.ToLower()) || x.role.Contains(search)) select b);
                 }
                 if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
                 {

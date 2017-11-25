@@ -31,9 +31,22 @@ namespace WMC_App.Models.DAL
         public Nullable<int> Likestatus { get; set; }
         public string UserFullename { get; set; }
         public string UserProfilepic { get; set; }
-        public List<tbl_LikesMaster> LikeList { get; set; }
+        public List<tbl_LikesMasterAPi> LikeList { get; set; }
        
       
+    }
+    public partial class tbl_LikesMasterAPi
+    {
+        public int pkid { get; set; }
+        public Nullable<int> Master_fkid { get; set; }
+        public Nullable<int> SubMaster_fkid { get; set; }
+        public string User_fkid { get; set; }
+        public Nullable<int> Likes { get; set; }
+        public Nullable<System.DateTime> LastModifieddatetime { get; set; }
+        public string customername { get; set; }
+        public Nullable<int> mid { get; set; }
+        public Nullable<System.DateTime> mdate { get; set; }
+        public string Pic { get; set; }
     }
     public class LikeCustomList
     {

@@ -313,7 +313,8 @@ namespace WMC_App.Controllers
                              pkid = a.pkid,
                              comname = a.ComplaintName,
                              des = a.ComplaintDescription,
-                             catg = (a.Category_fkid != null ? _catComplaint.Get(a.Category_fkid).CategoryName : ""),
+                             //catg = (a.Category_fkid != null ? _catComplaint.Get(a.Category_fkid).CategoryName : ""),
+                             catg = "",
                              adddate = a.AddedDate,
                              active = a.Active
                          });

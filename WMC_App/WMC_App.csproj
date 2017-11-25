@@ -4620,6 +4620,9 @@
     <Content Include="Views\Administration\Addcomplaint.cshtml" />
     <Content Include="Views\Administration\AddTourism.cshtml" />
     <Content Include="Views\SystemMaster\UserProfile.cshtml" />
+    <Content Include="Views\SystemMaster\PrabhagEntry.cshtml" />
+    <Content Include="Views\SystemMaster\WardEntry.cshtml" />
+    <Content Include="Views\SystemMaster\WardMemberEntry.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

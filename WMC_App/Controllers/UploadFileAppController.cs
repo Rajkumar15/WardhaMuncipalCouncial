@@ -22,6 +22,7 @@ namespace WMC_App.Controllers
 {
     public class UploadFileAppController : ApiController
     {
+        WMC_WebApplicationEntities db = new WMC_WebApplicationEntities();
         [Authorize]
         [HttpPost]
         public async Task<IHttpActionResult> UploadFilesSyS(string ty = "")
@@ -235,6 +236,95 @@ namespace WMC_App.Controllers
             catch (Exception e)
             {
                 abcd.status = "Data Save Failed";
+                abcd.flag = false;
+                return Json(abc);
+            }                       
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> EditUserProfile()
+        {
+            WMC_WebApplicationEntities db = new WMC_WebApplicationEntities();
+            // Check if the request contains multipart/form-data.
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            var provider = await Request.Content.ReadAsMultipartAsync<InMemoryMultipartFormDataStreamProvider>(new InMemoryMultipartFormDataStreamProvider());
+            //access form data
+            NameValueCollection model = provider.FormData;
+            //access files
+            IList<HttpContent> files = provider.Files;
+
+
+            returnAPiFlag abcd = new returnAPiFlag();
+            tbl_UserDetails abc = new tbl_UserDetails();
+            try
+            {                
+                abc.pkid = Convert.ToInt32(model["pkid"]);             
+                abc.FullName = model["FullName"];              
+                abc.AddressLine1 = model["AddressLine1"];
+                abc.AddressLine2 = model["AddressLine2"];
+                abc.ContactNumber = model["ContactNumber"];              
+                abc.EmailId = model["EmailId"];
+                abc.ProdilePic = model["ProdilePic"];              
+            }
+            catch(Exception e)
+            {
+                abcd.status = e.Message;
+                abcd.flag = true;
+                return Json(abcd);
+            }
+            try
+            {
+                string id;
+                id = User.Identity.GetUserId();
+                id = RequestContext.Principal.Identity.GetUserId();
+
+                if (abc.pkid == 0)
+                {             
+                    abcd.status = "pkid is Required for Edit";
+                    abcd.flag = false;
+                }
+                else
+                {
+                    var editdata = db.tbl_UserDetails.Where(x => x.pkid == abc.pkid).FirstOrDefault();
+                        
+                    var httpRequest = HttpContext.Current.Request;
+                    if (httpRequest.Files.Count > 0)
+                    {
+                        var docfiles = new List<string>();
+                        for (int i = 0; i <= httpRequest.Files.Count - 1; i++)
+                        {
+                            WebFunction web = new WebFunction();
+                            var postedFile = httpRequest.Files[i];
+                            DateTime date = DateTime.Now;
+                            string dates = date.Day.ToString() + date.Month.ToString() + date.Year.ToString() + date.Hour.ToString() + date.Minute.ToString() + date.Second.ToString() + date.ToString("tt");
+                            var returnpath = "/UploadFiles/Userspic/" + dates + postedFile.FileName;
+                            var filePath = Path.Combine(HttpContext.Current.Server.MapPath("/UploadFiles/Userspic/"), dates + postedFile.FileName);
+                            postedFile.SaveAs(filePath);
+                            editdata.ProdilePic = returnpath;
+                        }
+                    }
+                    editdata.FullName = abc.FullName;
+                    editdata.ContactNumber = abc.ContactNumber;
+                    editdata.AddressLine1 = abc.AddressLine1;
+                    editdata.AddressLine2 = abc.AddressLine2;                 
+                    editdata.EmailId = abc.EmailId;
+                    editdata.LastModifiedDate = DateTime.Now;             
+                    db.tbl_UserDetails.Attach(editdata);
+                    db.Entry(editdata).State = EntityState.Modified;
+                    db.SaveChanges();
+                    abcd.status = "Data updated Successfully";
+                    abcd.flag = true;
+                }
+                return Json(abcd);
+            }
+            catch (Exception e)
+            {
+                abcd.status =e.Message;
                 abcd.flag = false;
                 return Json(abc);
             }                       
