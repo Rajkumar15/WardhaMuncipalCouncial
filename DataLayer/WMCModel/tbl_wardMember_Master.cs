@@ -15,12 +15,13 @@ namespace DataLayer.WMCModel
     public partial class tbl_wardMember_Master
     {
         public int pkid { get; set; }
+        public Nullable<int> Ward_fkid { get; set; }
         public string Member_Name { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> adddate { get; set; }
         public Nullable<int> status { get; set; }
         public string Address { get; set; }
         public string MobileNo { get; set; }
-        public Nullable<int> Ward_fkid { get; set; }
+        public string ProfilePic { get; set; }
     }
 }

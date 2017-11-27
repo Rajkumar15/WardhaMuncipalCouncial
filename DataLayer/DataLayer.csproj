@@ -65,6 +65,9 @@
     <Compile Include="WMCModel\tbl_CountryMaster.cs">
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
+    <Compile Include="WMCModel\tbl_DeletedNoticeUser.cs">
+      <DependentUpon>WMC_WebApplication.tt</DependentUpon>
+    </Compile>
     <Compile Include="WMCModel\tbl_EmergencyContactCategory.cs">
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
@@ -78,6 +81,9 @@
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
     <Compile Include="WMCModel\tbl_MultipleFileUpload.cs">
+      <DependentUpon>WMC_WebApplication.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WMCModel\tbl_NewsAndUpdated.cs">
       <DependentUpon>WMC_WebApplication.tt</DependentUpon>
     </Compile>
     <Compile Include="WMCModel\tbl_NoticeBoardMaster.cs">

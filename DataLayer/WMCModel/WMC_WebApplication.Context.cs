@@ -29,10 +29,13 @@ namespace DataLayer.WMCModel
         public virtual DbSet<tbl_CityMaster> tbl_CityMaster { get; set; }
         public virtual DbSet<tbl_ComplaintMaster> tbl_ComplaintMaster { get; set; }
         public virtual DbSet<tbl_CountryMaster> tbl_CountryMaster { get; set; }
+        public virtual DbSet<tbl_DeletedNoticeUser> tbl_DeletedNoticeUser { get; set; }
         public virtual DbSet<tbl_Emergency_ContactUs> tbl_Emergency_ContactUs { get; set; }
+        public virtual DbSet<tbl_EmergencyContactCategory> tbl_EmergencyContactCategory { get; set; }
         public virtual DbSet<tbl_feedback_Master> tbl_feedback_Master { get; set; }
         public virtual DbSet<tbl_LikesMaster> tbl_LikesMaster { get; set; }
         public virtual DbSet<tbl_MultipleFileUpload> tbl_MultipleFileUpload { get; set; }
+        public virtual DbSet<tbl_NewsAndUpdated> tbl_NewsAndUpdated { get; set; }
         public virtual DbSet<tbl_NoticeBoardMaster> tbl_NoticeBoardMaster { get; set; }
         public virtual DbSet<tbl_Prabhag_Master> tbl_Prabhag_Master { get; set; }
         public virtual DbSet<tbl_StateMaster> tbl_StateMaster { get; set; }
@@ -43,6 +46,5 @@ namespace DataLayer.WMCModel
         public virtual DbSet<tbl_UserDetails> tbl_UserDetails { get; set; }
         public virtual DbSet<tbl_Ward_master> tbl_Ward_master { get; set; }
         public virtual DbSet<tbl_wardMember_Master> tbl_wardMember_Master { get; set; }
-        public virtual DbSet<tbl_EmergencyContactCategory> tbl_EmergencyContactCategory { get; set; }
     }
 }

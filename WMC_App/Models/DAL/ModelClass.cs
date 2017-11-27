@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace WMC_App.Models.DAL
 {
@@ -34,7 +36,7 @@ namespace WMC_App.Models.DAL
         public Nullable<int> mid { get; set; }
         public Nullable<System.DateTime> mdate { get; set; }
     }
-  
+
     public partial class tbl_NoticeBoardMasterss
     {
         public int pkid { get; set; }
@@ -146,7 +148,7 @@ namespace WMC_App.Models.DAL
         public Nullable<System.DateTime> mdate { get; set; }
     }
     public class FileModel
-    {        
+    {
         public HttpPostedFileBase[] files { get; set; }
     }
     public partial class tbl_EmergencyContactCategoryss
@@ -197,5 +199,17 @@ namespace WMC_App.Models.DAL
         public string Address { get; set; }
         public string MobileNo { get; set; }
         public Nullable<int> Ward_fkid { get; set; }
+        public string ProfilePic { get; set; }
+    }
+    public partial class tbl_NewsAndUpdatedss
+    {
+        public int pkid { get; set; }
+        public string Title { get; set; }
+        [UIHint("tinymce_jquery_full"), AllowHtml]
+        public string Description { get; set; }
+        public string ProfilePic { get; set; }
+        public Nullable<System.DateTime> Addate { get; set; }
+        public Nullable<System.DateTime> lastModified { get; set; }
+        public Nullable<int> status { get; set; }
     }
 }

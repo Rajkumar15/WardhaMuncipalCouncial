@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WMC_App.Models.BAL;
 using WMC_App.Models.DAL;
 
 namespace WMC_App.Controllers
@@ -540,18 +541,19 @@ namespace WMC_App.Controllers
                 abc.adddate = model.adddate;
                 abc.status = model.status;
                 abc.Address = model.Address;
-                abc.MobileNo = model.MobileNo;
+                abc.MobileNo = model.MobileNo;                
                 return View(abc);
             }
             return View();
         }
 
         [HttpPost]
-        public ActionResult WardMemberEntry(tbl_wardMember_Masterss model)
+        public ActionResult WardMemberEntry(tbl_wardMember_Masterss model,HttpPostedFileBase Pic)
         {
             ViewBag.ward = new SelectList(_ward.GetAll(), "pkid", "ward_Name");
             try
             {
+                WebFunction web = new WebFunction();
                 if (model.pkid == 0)
                 {
                     tbl_wardMember_Master abc = new tbl_wardMember_Master();
@@ -562,6 +564,15 @@ namespace WMC_App.Controllers
                     abc.status = model.status;
                     abc.Address = model.Address;
                     abc.MobileNo = model.MobileNo;
+                    if (Pic != null)
+                    {
+                        string path = System.Web.HttpContext.Current.Server.MapPath(model.ProfilePic);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }                       
+                        model.ProfilePic = web.Storefile(Pic, 5);
+                    }
                     _wardmember.Add(abc);
                 }
                 else
@@ -576,6 +587,15 @@ namespace WMC_App.Controllers
                     abc.status = model.status;
                     abc.Address = model.Address;
                     abc.MobileNo = model.MobileNo;
+                    if (Pic != null)
+                    {
+                        string path = System.Web.HttpContext.Current.Server.MapPath(model.ProfilePic);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        model.ProfilePic = web.Storefile(Pic, 5);
+                    }
                     _wardmember.Update(abc);
                 }
                 return RedirectToAction("WardMemberEntry", "SystemMaster");

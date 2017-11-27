@@ -155,6 +155,7 @@ namespace WMC_App.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordAPI usermodel)
         {
@@ -162,6 +163,25 @@ namespace WMC_App.Controllers
             try
             {
 
+                if (string.IsNullOrEmpty(usermodel.Email))
+                {
+                    if (!string.IsNullOrEmpty(usermodel.Mobile))
+                    {
+                        string EMail = db.tbl_UserDetails.Where(x => x.ContactNumber == usermodel.Mobile).FirstOrDefault().UserName;
+                        usermodel.Email = EMail;
+                    }
+                    else
+                    {
+                        abc.status = "Enter Email Or Mobile Number";
+                        abc.flag = false;
+                        return Json(abc);
+                    }
+                }
+                else {
+                    string EMail = db.tbl_UserDetails.Where(x => x.EmailId == usermodel.Email).FirstOrDefault().UserName;
+                    usermodel.Email = EMail;
+                }
+               
                 var UserManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var user = await UserManager.FindByNameAsync(usermodel.Email);
                 var userId = user.Id;
@@ -742,6 +762,7 @@ namespace WMC_App.Controllers
                             membersingle.status = Member.status;
                             membersingle.Address = Member.Address;
                             membersingle.MobileNo = Member.MobileNo;
+                            membersingle.ProfilePic = Member.ProfilePic;
                             LLmembersingle.Add(membersingle);
                         }
                         wardsingle.MemberList = LLmembersingle;
@@ -872,15 +893,61 @@ namespace WMC_App.Controllers
             {
                 string id;
                 id = User.Identity.GetUserId();
-                id = RequestContext.Principal.Identity.GetUserId();
-                var LikeList = db.tbl_LikesMaster.Where(x => x.User_fkid == id && x.Master_fkid == 1).ToList();
-
+                id = RequestContext.Principal.Identity.GetUserId();               
+                var LikeList = (from a in db.tbl_LikesMaster.Where(x => x.Master_fkid == 1 && x.SubMaster_fkid == 1).ToList()
+                                  select new tbl_LikesMasterAPi
+                                  {
+                                      customername = a.customername,
+                                      Pic = db.tbl_UserDetails.Where(x => x.User_fkid == a.User_fkid).FirstOrDefault().ProdilePic
+                                  }).ToList();
                 foreach (var item in LikeList)
                 {
                     tbl_ComplaintMaster Single = new tbl_ComplaintMaster();
                     Single = db.tbl_ComplaintMaster.Where(x => x.pkid == item.SubMaster_fkid).FirstOrDefault();
                     data.Add(Single);
                 }
+                return Json(data);
+            }
+            catch (Exception e)
+            {
+                abc.status = "Failed";
+                abc.flag = false;
+                return Json(abc);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> NewsAndUpdateList()
+        {
+            returnAPiFlag abc = new returnAPiFlag();          
+            try
+            {
+                string id;
+                id = User.Identity.GetUserId();
+                id = RequestContext.Principal.Identity.GetUserId();
+                var data = db.tbl_NewsAndUpdated.Where(x => x.status == 1).ToList();
+                return Json(data);
+            }
+            catch (Exception e)
+            {
+                abc.status = "Failed";
+                abc.flag = false;
+                return Json(abc);
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IHttpActionResult> DeletedUserList()
+        {
+            returnAPiFlag abc = new returnAPiFlag();
+            try
+            {
+                string id;
+                id = User.Identity.GetUserId();
+                id = RequestContext.Principal.Identity.GetUserId();
+                var data = db.tbl_DeletedNoticeUser.Where(x => x.User_fkid == id).ToList();
                 return Json(data);
             }
             catch (Exception e)
@@ -1030,7 +1097,87 @@ namespace WMC_App.Controllers
             }
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> NoticeDeleteByUser(tbl_DeletedNoticeUser model)
+        {
+            try
+            {
+                string id;
+                id = User.Identity.GetUserId();
+                id = RequestContext.Principal.Identity.GetUserId();
+                string name = User.Identity.GetUserName();
+                returnAPiFlag abcd = new returnAPiFlag();                    
+                if (model.pkid == 0)
+                {
+                    model.LastDatetime = DateTime.Now;
+                    model.User_fkid = id;                  
+                    db.tbl_DeletedNoticeUser.Add(model);
+                    db.SaveChanges();
+                    abcd.status = "Data Save Successfully";
+                    abcd.flag = true;                 
+                }
+                else
+                {                   
+                    model.LastDatetime = DateTime.Now;
+                    model.User_fkid = id;
+                    db.tbl_DeletedNoticeUser.Attach(model);
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                    abcd.status = "Data updated Successfully";
+                    abcd.flag = true;                   
+                }
+                return Json(abcd);
+            }
+            catch (Exception e)
+            {
+                returnAPiFlag abc = new returnAPiFlag();
+                abc.status = "Data Save Failed";
+                abc.flag = false;              
+                return Json(abc);
+            }
+        }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IHttpActionResult> FeedBack(tbl_feedback_Master model)
+        {
+            try
+            {
+                string id;
+                id = User.Identity.GetUserId();
+                id = RequestContext.Principal.Identity.GetUserId();
+                string name = User.Identity.GetUserName();
+                returnAPiFlag abcd = new returnAPiFlag();             
+                if (model.pkid == 0)
+                {
+                    model.adddate = DateTime.Now;
+                    model.user_fkid = id;
+                    db.tbl_feedback_Master.Add(model);
+                    db.SaveChanges();
+                    abcd.status = "Data Save Successfully";
+                    abcd.flag = true;
+                }
+                else
+                {
+                    model.adddate = DateTime.Now;
+                    model.user_fkid = id;
+                    db.tbl_feedback_Master.Attach(model);
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                    abcd.status = "Data updated Successfully";
+                    abcd.flag = true;
+                }
+                return Json(abcd);
+            }
+            catch (Exception e)
+            {
+                LikeMasterReturn abc = new LikeMasterReturn();
+                abc.status = "Data Save Failed";
+                abc.flag = false;
+                return Json(abc);
+            }
+        }
 
     }
 }

@@ -15,6 +15,7 @@ namespace DataLayer.WMCModel
     public partial class tbl_feedback_Master
     {
         public int pkid { get; set; }
+        public Nullable<int> Complaint_fkid { get; set; }
         public Nullable<int> rateAmt { get; set; }
         public string description { get; set; }
         public string user_fkid { get; set; }

@@ -4,26 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f10869946adb4dd4b580cd6bb673638f" Name="Diagram1">
+      <Diagram DiagramId="e5b1eb42800e4558a008161109a0e958" Name="Diagram1">
         <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Category_Complaint" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_CityMaster" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_ComplaintMaster" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_CountryMaster" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Emergency_ContactUs" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_feedback_Master" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_LikesMaster" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_MultipleFileUpload" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_NoticeBoardMaster" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Prabhag_Master" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_StateMaster" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_suggestionMaster" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Tourism_Category" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Tourism_SubCategory" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_TourismMaster" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_UserDetails" Width="1.5" PointX="10.75" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Ward_master" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_wardMember_Master" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_EmergencyContactCategory" Width="1.5" PointX="5.375" PointY="12.75" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_DeletedNoticeUser" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Emergency_ContactUs" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_EmergencyContactCategory" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_feedback_Master" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_LikesMaster" Width="1.5" PointX="6.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_MultipleFileUpload" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_NewsAndUpdated" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_NoticeBoardMaster" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Prabhag_Master" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_StateMaster" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_suggestionMaster" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Tourism_Category" Width="1.5" PointX="10.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Tourism_SubCategory" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_TourismMaster" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_UserDetails" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_Ward_master" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WMC_WebApplicationModel.tbl_wardMember_Master" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

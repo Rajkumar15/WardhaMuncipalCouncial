@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WMC_WebApplicationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="WMC_WebApplicationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tbl_Category_Complaint">
           <Key>
             <PropertyRef Name="pkid" />
@@ -56,6 +56,15 @@
           <Property Name="CountryCode" Type="varchar" MaxLength="5" />
           <Property Name="Lid" Type="int" />
         </EntityType>
+        <EntityType Name="tbl_DeletedNoticeUser">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Notice_fkid" Type="int" />
+          <Property Name="User_fkid" Type="varchar(max)" />
+          <Property Name="LastDatetime" Type="datetime" />
+        </EntityType>
         <EntityType Name="tbl_Emergency_ContactUs">
           <Key>
             <PropertyRef Name="pkid" />
@@ -84,6 +93,7 @@
             <PropertyRef Name="pkid" />
           </Key>
           <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Complaint_fkid" Type="int" />
           <Property Name="rateAmt" Type="int" />
           <Property Name="description" Type="nvarchar(max)" />
           <Property Name="user_fkid" Type="nvarchar(max)" />
@@ -116,6 +126,18 @@
           <Property Name="Lid" Type="int" />
           <Property Name="mid" Type="int" />
           <Property Name="mdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="tbl_NewsAndUpdated">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="ProfilePic" Type="nvarchar(max)" />
+          <Property Name="Addate" Type="datetime" />
+          <Property Name="lastModified" Type="datetime" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="tbl_NoticeBoardMaster">
           <Key>
@@ -258,17 +280,20 @@
           <Property Name="status" Type="int" />
           <Property Name="Address" Type="nvarchar(max)" />
           <Property Name="MobileNo" Type="varchar" MaxLength="50" />
+          <Property Name="ProfilePic" Type="varchar(max)" />
         </EntityType>
         <EntityContainer Name="WMC_WebApplicationModelStoreContainer">
           <EntitySet Name="tbl_Category_Complaint" EntityType="Self.tbl_Category_Complaint" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CityMaster" EntityType="Self.tbl_CityMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_ComplaintMaster" EntityType="Self.tbl_ComplaintMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_CountryMaster" EntityType="Self.tbl_CountryMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_DeletedNoticeUser" EntityType="Self.tbl_DeletedNoticeUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Emergency_ContactUs" EntityType="Self.tbl_Emergency_ContactUs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_EmergencyContactCategory" EntityType="Self.tbl_EmergencyContactCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_feedback_Master" EntityType="Self.tbl_feedback_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_LikesMaster" EntityType="Self.tbl_LikesMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_MultipleFileUpload" EntityType="Self.tbl_MultipleFileUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NewsAndUpdated" EntityType="Self.tbl_NewsAndUpdated" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_NoticeBoardMaster" EntityType="Self.tbl_NoticeBoardMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_Prabhag_Master" EntityType="Self.tbl_Prabhag_Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_StateMaster" EntityType="Self.tbl_StateMaster" Schema="dbo" store:Type="Tables" />
@@ -280,7 +305,8 @@
           <EntitySet Name="tbl_Ward_master" EntityType="Self.tbl_Ward_master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_wardMember_Master" EntityType="Self.tbl_wardMember_Master" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WMC_WebApplicationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -335,22 +361,44 @@
           <Property Name="CountryCode" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Lid" Type="Int32" />
         </EntityType>
+        <EntityType Name="tbl_DeletedNoticeUser">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Notice_fkid" Type="Int32" />
+          <Property Name="User_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="LastDatetime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="tbl_Emergency_ContactUs">
           <Key>
             <PropertyRef Name="pkid" />
           </Key>
           <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Category_fkid" Type="Int32" />
           <Property Name="DeptName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MobileNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Int32" />
-          <Property Name="Category_fkid" Type="Int32" />
+        </EntityType>
+        <EntityType Name="tbl_EmergencyContactCategory">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CatgoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="categoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Lid" Type="Int32" />
+          <Property Name="md" Type="Int32" />
+          <Property Name="mdate" Type="DateTime" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="tbl_feedback_Master">
           <Key>
             <PropertyRef Name="pkid" />
           </Key>
           <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Complaint_fkid" Type="Int32" />
           <Property Name="rateAmt" Type="Int32" />
           <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="user_fkid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -383,6 +431,18 @@
           <Property Name="Lid" Type="Int32" />
           <Property Name="mid" Type="Int32" />
           <Property Name="mdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="tbl_NewsAndUpdated">
+          <Key>
+            <PropertyRef Name="pkid" />
+          </Key>
+          <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProfilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Addate" Type="DateTime" Precision="3" />
+          <Property Name="lastModified" Type="DateTime" Precision="3" />
+          <Property Name="status" Type="Int32" />
         </EntityType>
         <EntityType Name="tbl_NoticeBoardMaster">
           <Key>
@@ -518,23 +578,27 @@
             <PropertyRef Name="pkid" />
           </Key>
           <Property Name="pkid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ward_fkid" Type="Int32" />
           <Property Name="Member_Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="adddate" Type="DateTime" Precision="3" />
           <Property Name="status" Type="Int32" />
           <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MobileNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Ward_fkid" Type="Int32" />
+          <Property Name="ProfilePic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="WMC_WebApplicationEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tbl_Category_Complaint" EntityType="Self.tbl_Category_Complaint" />
           <EntitySet Name="tbl_CityMaster" EntityType="Self.tbl_CityMaster" />
           <EntitySet Name="tbl_ComplaintMaster" EntityType="Self.tbl_ComplaintMaster" />
           <EntitySet Name="tbl_CountryMaster" EntityType="Self.tbl_CountryMaster" />
+          <EntitySet Name="tbl_DeletedNoticeUser" EntityType="Self.tbl_DeletedNoticeUser" />
           <EntitySet Name="tbl_Emergency_ContactUs" EntityType="Self.tbl_Emergency_ContactUs" />
+          <EntitySet Name="tbl_EmergencyContactCategory" EntityType="Self.tbl_EmergencyContactCategory" />
           <EntitySet Name="tbl_feedback_Master" EntityType="Self.tbl_feedback_Master" />
           <EntitySet Name="tbl_LikesMaster" EntityType="Self.tbl_LikesMaster" />
           <EntitySet Name="tbl_MultipleFileUpload" EntityType="Self.tbl_MultipleFileUpload" />
+          <EntitySet Name="tbl_NewsAndUpdated" EntityType="Self.tbl_NewsAndUpdated" />
           <EntitySet Name="tbl_NoticeBoardMaster" EntityType="Self.tbl_NoticeBoardMaster" />
           <EntitySet Name="tbl_Prabhag_Master" EntityType="Self.tbl_Prabhag_Master" />
           <EntitySet Name="tbl_StateMaster" EntityType="Self.tbl_StateMaster" />
@@ -545,20 +609,7 @@
           <EntitySet Name="tbl_UserDetails" EntityType="Self.tbl_UserDetails" />
           <EntitySet Name="tbl_Ward_master" EntityType="Self.tbl_Ward_master" />
           <EntitySet Name="tbl_wardMember_Master" EntityType="Self.tbl_wardMember_Master" />
-          <EntitySet Name="tbl_EmergencyContactCategory" EntityType="WMC_WebApplicationModel.tbl_EmergencyContactCategory" />
         </EntityContainer>
-        <EntityType Name="tbl_EmergencyContactCategory">
-          <Key>
-            <PropertyRef Name="pkid" />
-          </Key>
-          <Property Name="pkid" Type="Int32" Nullable="false" />
-          <Property Name="CatgoryName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="categoryDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Lid" Type="Int32" />
-          <Property Name="md" Type="Int32" />
-          <Property Name="mdate" Type="DateTime" Precision="3" />
-          <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -620,11 +671,21 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_DeletedNoticeUser">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_DeletedNoticeUser">
+              <MappingFragment StoreEntitySet="tbl_DeletedNoticeUser">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Notice_fkid" ColumnName="Notice_fkid" />
+                <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
+                <ScalarProperty Name="LastDatetime" ColumnName="LastDatetime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_Emergency_ContactUs">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_Emergency_ContactUs">
               <MappingFragment StoreEntitySet="tbl_Emergency_ContactUs">
-                <ScalarProperty Name="Category_fkid" ColumnName="Category_fkid" />
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Category_fkid" ColumnName="Category_fkid" />
                 <ScalarProperty Name="DeptName" ColumnName="DeptName" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
@@ -632,10 +693,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tbl_EmergencyContactCategory">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_EmergencyContactCategory">
+              <MappingFragment StoreEntitySet="tbl_EmergencyContactCategory">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="CatgoryName" ColumnName="CatgoryName" />
+                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+                <ScalarProperty Name="Lid" ColumnName="Lid" />
+                <ScalarProperty Name="md" ColumnName="md" />
+                <ScalarProperty Name="mdate" ColumnName="mdate" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_feedback_Master">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_feedback_Master">
               <MappingFragment StoreEntitySet="tbl_feedback_Master">
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Complaint_fkid" ColumnName="Complaint_fkid" />
                 <ScalarProperty Name="rateAmt" ColumnName="rateAmt" />
                 <ScalarProperty Name="description" ColumnName="description" />
                 <ScalarProperty Name="user_fkid" ColumnName="user_fkid" />
@@ -670,6 +745,19 @@
                 <ScalarProperty Name="Lid" ColumnName="Lid" />
                 <ScalarProperty Name="mid" ColumnName="mid" />
                 <ScalarProperty Name="mdate" ColumnName="mdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NewsAndUpdated">
+            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_NewsAndUpdated">
+              <MappingFragment StoreEntitySet="tbl_NewsAndUpdated">
+                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
+                <ScalarProperty Name="Addate" ColumnName="Addate" />
+                <ScalarProperty Name="lastModified" ColumnName="lastModified" />
+                <ScalarProperty Name="status" ColumnName="status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -779,7 +867,6 @@
           <EntitySetMapping Name="tbl_UserDetails">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_UserDetails">
               <MappingFragment StoreEntitySet="tbl_UserDetails">
-                <ScalarProperty Name="ProdilePic" ColumnName="ProdilePic" />
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
                 <ScalarProperty Name="User_fkid" ColumnName="User_fkid" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
@@ -795,6 +882,7 @@
                 <ScalarProperty Name="Lid" ColumnName="Lid" />
                 <ScalarProperty Name="mid" ColumnName="mid" />
                 <ScalarProperty Name="mdate" ColumnName="mdate" />
+                <ScalarProperty Name="ProdilePic" ColumnName="ProdilePic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -814,27 +902,15 @@
           <EntitySetMapping Name="tbl_wardMember_Master">
             <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_wardMember_Master">
               <MappingFragment StoreEntitySet="tbl_wardMember_Master">
-                <ScalarProperty Name="Ward_fkid" ColumnName="Ward_fkid" />
                 <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="Ward_fkid" ColumnName="Ward_fkid" />
                 <ScalarProperty Name="Member_Name" ColumnName="Member_Name" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="adddate" ColumnName="adddate" />
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbl_EmergencyContactCategory">
-            <EntityTypeMapping TypeName="WMC_WebApplicationModel.tbl_EmergencyContactCategory">
-              <MappingFragment StoreEntitySet="tbl_EmergencyContactCategory">
-                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
-                <ScalarProperty Name="mdate" ColumnName="mdate" />
-                <ScalarProperty Name="md" ColumnName="md" />
-                <ScalarProperty Name="Lid" ColumnName="Lid" />
-                <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
-                <ScalarProperty Name="CatgoryName" ColumnName="CatgoryName" />
-                <ScalarProperty Name="pkid" ColumnName="pkid" />
+                <ScalarProperty Name="ProfilePic" ColumnName="ProfilePic" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

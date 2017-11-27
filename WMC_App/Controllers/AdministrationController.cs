@@ -24,9 +24,11 @@ namespace WMC_App.Controllers
         public readonly IRepository<tbl_Tourism_SubCategory> _subcatTourism;
         public readonly IRepository<tbl_TourismMaster> _tourim;
         public readonly IRepository<tbl_MultipleFileUpload> _mfile;
+        public readonly IRepository<tbl_NewsAndUpdated> _news;
 
         public AdministrationController(IRepository<tbl_UserDetails> user, IRepository<tbl_CityMaster> city, IRepository<tbl_NoticeBoardMaster> NoticeMaster, IRepository<tbl_ComplaintMaster> complaint, IRepository<tbl_Category_Complaint> catcomplaint,
-            IRepository<tbl_Tourism_Category> catTourisom, IRepository<tbl_Tourism_SubCategory> subcatTourism, IRepository<tbl_TourismMaster> tourim, IRepository<tbl_MultipleFileUpload> mfile)
+            IRepository<tbl_Tourism_Category> catTourisom, IRepository<tbl_Tourism_SubCategory> subcatTourism, IRepository<tbl_TourismMaster> tourim, IRepository<tbl_MultipleFileUpload> mfile,
+            IRepository<tbl_NewsAndUpdated> news)
         {
             _user = user;
             _city = city;
@@ -37,6 +39,7 @@ namespace WMC_App.Controllers
             _subcatTourism = subcatTourism;
             _tourim = tourim;
             _mfile = mfile;
+            _news = news;
         }
         // GET: Administration
         [HttpGet]
@@ -532,5 +535,141 @@ namespace WMC_App.Controllers
                 return Json("failed", JsonRequestBehavior.AllowGet);
             }
         }
+
+        [HttpGet]
+        public ActionResult NewsAndUpdated(string id)
+        {
+            if (!String.IsNullOrWhiteSpace(id))
+            {
+                int _id = Convert.ToInt32(id);
+                tbl_NewsAndUpdated model = _news.Get(_id);
+                tbl_NewsAndUpdatedss abc = new tbl_NewsAndUpdatedss();
+                abc.pkid = model.pkid;
+                abc.Title = model.Title;
+                abc.status = model.status;
+                abc.Description = model.Description;
+                abc.ProfilePic = model.ProfilePic;
+                return View(abc);
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult NewsAndUpdated(tbl_NewsAndUpdatedss model, HttpPostedFileBase files)
+        {          
+            try
+            {
+
+                if (model.pkid == 0)
+                {
+                    tbl_NewsAndUpdated abc = new tbl_NewsAndUpdated();
+                    abc.Title = model.Title;
+                    abc.Description = model.Description;
+                    abc.status = model.status;
+                    abc.ProfilePic = model.ProfilePic;
+                    abc.Addate = DateTime.Now;
+                    abc.lastModified = DateTime.Now;
+                    if (files != null)
+                    {
+                        string path = System.Web.HttpContext.Current.Server.MapPath(model.ProfilePic);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        WebFunction web = new WebFunction();
+                        abc.ProfilePic = web.Storefile(files, 6);
+                    }
+                    _news.Add(abc);
+                 
+                }
+                else
+                {
+                    int _id = Convert.ToInt32(model.pkid);
+                    tbl_NewsAndUpdated abc = _news.Get(_id);
+                    abc.Title = model.Title;
+                    abc.status = model.status;
+                    abc.Description = model.Description;
+                    abc.ProfilePic = model.ProfilePic;                    
+                    abc.lastModified = DateTime.Now;
+                    if (files != null)
+                    {
+                        string path = System.Web.HttpContext.Current.Server.MapPath(model.ProfilePic);
+                        if (System.IO.File.Exists(path))
+                        {
+                            System.IO.File.Delete(path);
+                        }
+                        WebFunction web = new WebFunction();
+                        abc.ProfilePic = web.Storefile(files, 6);
+                    }
+                    _news.Update(abc);
+                  
+                }
+                return RedirectToAction("NewsAndUpdated", "Administration");
+            }
+            catch (Exception e)
+            {
+                Commonfunction.LogError(e, Server.MapPath("~/Log.txt"));
+                ViewBag.Exception = e.Message;
+                return View();
+            }
+        }
+        public ActionResult GetNewsList()
+        {
+            var search = Request.Form.GetValues("search[value]")[0];
+            var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            //Find Order Column
+            string sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            string sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int recordsTotal = 0;
+
+            //dc.Configuration.LazyLoadingEnabled = false; // if your table is relational, contain foreign key
+            try
+            {
+                var v = (from a in _news.GetAll()
+
+                         select new
+                         {
+                             pkid = a.pkid,
+                             title = a.Title,
+                             des = a.Description,
+                             st = (a.status == 1 ? "Active" : "In-Active"),
+                         });
+                if (!string.IsNullOrEmpty(search) && !string.IsNullOrWhiteSpace(search))
+                {
+                    v = (from b in v.Where(x => x.title.ToLower().Contains(search.ToLower()) || x.des.ToLower().Contains(search.ToLower()) || x.st.ToLower().Contains(search.ToLower())) select b);
+                }
+                if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                {
+                    //v = v.OrderBy(sortColumn, sortColumnDir);
+                }
+                recordsTotal = v.Count();
+                var data = v.OrderByDescending(x => x.pkid).Skip(skip).Take(pageSize).ToList();
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = "" }, JsonRequestBehavior.AllowGet);
+
+            }
+        }
+        public ActionResult DeleteNews(int id)
+        {
+            try
+            {
+                WebFunction web = new WebFunction();
+                tbl_NewsAndUpdated abc = _news.Get(id);             
+                _tourim.Remove(id, false);
+
+                return RedirectToAction("NewsAndUpdated", "Administration");
+            }
+            catch
+            {
+                return RedirectToAction("NewsAndUpdated", "Administration");
+            }
+        }
+
     }
 }

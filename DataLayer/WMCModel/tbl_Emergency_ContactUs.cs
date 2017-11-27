@@ -15,10 +15,10 @@ namespace DataLayer.WMCModel
     public partial class tbl_Emergency_ContactUs
     {
         public int pkid { get; set; }
+        public Nullable<int> Category_fkid { get; set; }
         public string DeptName { get; set; }
         public string MobileNo { get; set; }
         public string Address { get; set; }
         public Nullable<int> Status { get; set; }
-        public Nullable<int> Category_fkid { get; set; }
     }
 }

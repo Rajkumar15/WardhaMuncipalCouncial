@@ -133,11 +133,10 @@ namespace WMC_App.Models.DAL
 
     }
     public class ForgotPasswordAPI
-    {
-        [Required]
+    {       
         [EmailAddress]
-        public string Email { get; set; }
-
+        public string Email { get; set; }    
+        public string Mobile { get; set; }
     }
     public class Deleteuploadfile
     {

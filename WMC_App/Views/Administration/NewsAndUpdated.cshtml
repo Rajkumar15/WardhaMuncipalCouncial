@@ -1,0 +1,167 @@
+﻿@model WMC_App.Models.DAL.tbl_NewsAndUpdatedss
+@{
+    ViewBag.Title = "EditUserDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .wp {
+        text-decoration: underline;
+        font-weight: bold;
+    }
+</style>
+
+<div id="content-wrapper">
+    <div class="row" style="opacity: 1;">
+        <div class="col-lg-12">
+            <div class="slide-main-container">
+                <!-- ngView:  --><div ng-view="" autoscroll="true" class="slide-main-animation ng-scope">
+                    <div class="row ng-scope">
+                        <div class="col-lg-12">
+                            <ol class="breadcrumb">
+                                <li><a href="/Home/Index">Home</a></li>
+                                <li><span>Master</span></li>
+                                <li class="active"><span>News Registration</span></li>
+                            </ol>
+                            <h1>News Registration</h1>
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("NewsAndUpdated", "Administration", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                    {
+                        <div class="row ng-scope">
+                            <div class="col-lg-12">
+                                <div class="main-box">
+                                    <header class="main-box-header clearfix" style="border-bottom: 1px solid #E7EBEE;">
+                                        <h2 class="wp">News Registration</h2>
+                                    </header>
+                                    <div class="main-box-body clearfix">
+                                        @Html.ValidationSummary()
+                                        @Html.HiddenFor(x => x.pkid)
+                                        @Html.HiddenFor(x => x.status)
+
+                                        <div class="form-group">
+                                            <label for="inputEmail1" class="col-lg-2 control-label">Title Name</label>
+                                            <div class="col-lg-6">
+                                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Enter Title Name", @required = "required" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Status</label>
+                                            <div class="col-lg-6">
+                                                <select class="form-control" id="st">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Active</option>
+                                                    <option value="0">In-Active</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Profile PIC</label>
+                                            <div class="col-lg-6">
+                                                <input type="file" name="files" class="form-control" multiple="multiple" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-lg-2 control-label">Description</label>
+                                            <div class="col-lg-10">
+                                                @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @row = "25" })
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <button type="submit" class="btn btn-success">Save</button>
+                                                <button type="button" class="btn btn-danger">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="main-box-body clearfix">
+                                        <table class="table table-bordered table-striped table-hover js-basic-example dataTable " style="width: 100%;">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>Title</th>
+                                                    <th>Description</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Content/js/jquery-1.12.4.js"></script>
+<link href="~/Content/css/sweetalert2.css" rel="stylesheet" />
+<script src="~/Content/js/sweetalert2.js"></script>
+<link href="~/Content/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="~/Content/js/jquery.dataTables.js"></script>
+<script src="~/Scripts/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#st").change(function () {
+            $("#status").val($("#st").val());
+        })
+        $("#st").val($("#status").val());
+        if ('@ViewBag.Exception' != "") {
+            sweetAlert('Oops...',
+                 'Something went wrong due to @ViewBag.Exception!',
+                 'error'
+                )
+        }
+        tinymce.init({
+            selector: 'textarea',
+            theme: "modern",
+            // Theme options
+            theme_advanced_buttons1: "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+            theme_advanced_buttons2: "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+            theme_advanced_buttons3: "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+            theme_advanced_buttons4: "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,insertfile,insertimage",
+            theme_advanced_toolbar_location: "top",
+            theme_advanced_toolbar_align: "left",
+            theme_advanced_statusbar_location: "bottom",
+            theme_advanced_resizing: true,
+        });
+    })
+
+    $('.js-basic-example').DataTable({
+        "processing": true, // for show progress bar
+        "serverSide": true, // for process server side
+        "filter": false, // this is for disable filter (search box)
+        "orderMulti": false, // for disable multiple column at once
+
+        "ajax": {
+            "url": "/Administration/GetNewsList",
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columns": [
+                { "data": "pkid", "name": "pkid", "orderable": false, "autoWidth": true },
+                  { "data": "title", "Name": "title", "autoWidth": true },
+                { "data": "des", "Name": "des", "autoWidth": true },
+                    { "data": "st", "Name": "st", "autoWidth": true },
+                {
+                    "data": "pkid", "orderable": false, "render": function (data, type, full, meta) {
+                        return '<a href=/Administration/NewsAndUpdated?id=' + data + '>Edit</a> | <a href=/Administration/DeleteNews?id=' + data + '>Delete</a>';
+                    }
+                }
+        ],
+        "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+            $("td:first", nRow).html(iDisplayIndex + 1);
+            return nRow;
+        }
+    })
+</script>
